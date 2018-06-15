@@ -1,0 +1,22 @@
+[package]
+name = "mruby-sys"
+version = "0.1.0"
+authors = ["Eyal Kalderon <ebkalderon@gmail.com>"]
+links = "libmruby"
+build = "build.rs"
+
+[features]
+default = ["use-floats", "utf8"]
+debug = []
+disable-stdio = []
+use-floats = []
+utf8 = []
+
+static = []
+dynamic = []
+
+[dependencies]
+
+[build-dependencies]
+cc = "1.0"
+walkdir = "2.1"
