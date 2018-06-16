@@ -5564,6 +5564,222 @@ extern "C" {
     #[link_name = "\u{1}_mrb_regexp_check"]
     pub fn mrb_regexp_check(mrb: *mut mrb_state, obj: mrb_value);
 }
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_special_get"]
+    pub fn mrb_vm_special_get(arg1: *mut mrb_state, arg2: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_special_set"]
+    pub fn mrb_vm_special_set(arg1: *mut mrb_state, arg2: mrb_sym, arg3: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_iv_get"]
+    pub fn mrb_vm_iv_get(arg1: *mut mrb_state, arg2: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_iv_set"]
+    pub fn mrb_vm_iv_set(arg1: *mut mrb_state, arg2: mrb_sym, arg3: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_cv_get"]
+    pub fn mrb_vm_cv_get(arg1: *mut mrb_state, arg2: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_cv_set"]
+    pub fn mrb_vm_cv_set(arg1: *mut mrb_state, arg2: mrb_sym, arg3: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_const_get"]
+    pub fn mrb_vm_const_get(arg1: *mut mrb_state, arg2: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_vm_const_set"]
+    pub fn mrb_vm_const_set(arg1: *mut mrb_state, arg2: mrb_sym, arg3: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_const_get"]
+    pub fn mrb_const_get(arg1: *mut mrb_state, arg2: mrb_value, arg3: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_const_set"]
+    pub fn mrb_const_set(arg1: *mut mrb_state, arg2: mrb_value, arg3: mrb_sym, arg4: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_const_defined"]
+    pub fn mrb_const_defined(arg1: *mut mrb_state, arg2: mrb_value, arg3: mrb_sym) -> mrb_bool;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_const_remove"]
+    pub fn mrb_const_remove(arg1: *mut mrb_state, arg2: mrb_value, arg3: mrb_sym);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_iv_p"]
+    pub fn mrb_iv_p(mrb: *mut mrb_state, sym: mrb_sym) -> mrb_bool;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_iv_check"]
+    pub fn mrb_iv_check(mrb: *mut mrb_state, sym: mrb_sym);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_obj_iv_get"]
+    pub fn mrb_obj_iv_get(mrb: *mut mrb_state, obj: *mut RObject, sym: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_obj_iv_set"]
+    pub fn mrb_obj_iv_set(mrb: *mut mrb_state, obj: *mut RObject, sym: mrb_sym, v: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_obj_iv_defined"]
+    pub fn mrb_obj_iv_defined(mrb: *mut mrb_state, obj: *mut RObject, sym: mrb_sym) -> mrb_bool;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_iv_get"]
+    pub fn mrb_iv_get(mrb: *mut mrb_state, obj: mrb_value, sym: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_iv_set"]
+    pub fn mrb_iv_set(mrb: *mut mrb_state, obj: mrb_value, sym: mrb_sym, v: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_iv_defined"]
+    pub fn mrb_iv_defined(arg1: *mut mrb_state, arg2: mrb_value, arg3: mrb_sym) -> mrb_bool;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_iv_remove"]
+    pub fn mrb_iv_remove(mrb: *mut mrb_state, obj: mrb_value, sym: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_iv_copy"]
+    pub fn mrb_iv_copy(mrb: *mut mrb_state, dst: mrb_value, src: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_const_defined_at"]
+    pub fn mrb_const_defined_at(mrb: *mut mrb_state, mod_: mrb_value, id: mrb_sym) -> mrb_bool;
+}
+extern "C" {
+    /// Get a global variable. Will return nil if the var does not exist
+    ///
+    /// Example:
+    ///
+    /// !!!ruby
+    /// # Ruby style
+    /// var = $value
+    ///
+    /// !!!c
+    /// // C style
+    /// mrb_sym sym = mrb_intern_lit(mrb, "$value");
+    /// mrb_value var = mrb_gv_get(mrb, sym);
+    ///
+    /// @param mrb The mruby state reference
+    /// @param sym The name of the global variable
+    /// @return The value of that global variable. May be nil
+    #[link_name = "\u{1}_mrb_gv_get"]
+    pub fn mrb_gv_get(mrb: *mut mrb_state, sym: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    /// Set a global variable
+    ///
+    /// Example:
+    ///
+    /// !!!ruby
+    /// # Ruby style
+    /// $value = "foo"
+    ///
+    /// !!!c
+    /// // C style
+    /// mrb_sym sym = mrb_intern_lit(mrb, "$value");
+    /// mrb_gv_set(mrb, sym, mrb_str_new_lit("foo"));
+    ///
+    /// @param mrb The mruby state reference
+    /// @param sym The name of the global variable
+    /// @param val The value of the global variable
+    #[link_name = "\u{1}_mrb_gv_set"]
+    pub fn mrb_gv_set(mrb: *mut mrb_state, sym: mrb_sym, val: mrb_value);
+}
+extern "C" {
+    /// Remove a global variable.
+    ///
+    /// Example:
+    ///
+    /// !!!ruby
+    /// # Ruby style
+    /// $value = nil
+    ///
+    /// !!!c
+    /// // C style
+    /// mrb_sym sym = mrb_intern_lit(mrb, "$value");
+    /// mrb_gv_remove(mrb, sym);
+    ///
+    /// @param mrb The mruby state reference
+    /// @param sym The name of the global variable
+    /// @param val The value of the global variable
+    #[link_name = "\u{1}_mrb_gv_remove"]
+    pub fn mrb_gv_remove(mrb: *mut mrb_state, sym: mrb_sym);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_cv_get"]
+    pub fn mrb_cv_get(mrb: *mut mrb_state, mod_: mrb_value, sym: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_mod_cv_set"]
+    pub fn mrb_mod_cv_set(mrb: *mut mrb_state, c: *mut RClass, sym: mrb_sym, v: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_cv_set"]
+    pub fn mrb_cv_set(mrb: *mut mrb_state, mod_: mrb_value, sym: mrb_sym, v: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_cv_defined"]
+    pub fn mrb_cv_defined(mrb: *mut mrb_state, mod_: mrb_value, sym: mrb_sym) -> mrb_bool;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_obj_iv_inspect"]
+    pub fn mrb_obj_iv_inspect(arg1: *mut mrb_state, arg2: *mut RObject) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_mod_constants"]
+    pub fn mrb_mod_constants(mrb: *mut mrb_state, mod_: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_f_global_variables"]
+    pub fn mrb_f_global_variables(mrb: *mut mrb_state, self_: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_obj_instance_variables"]
+    pub fn mrb_obj_instance_variables(arg1: *mut mrb_state, arg2: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_mod_class_variables"]
+    pub fn mrb_mod_class_variables(arg1: *mut mrb_state, arg2: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_mod_cv_get"]
+    pub fn mrb_mod_cv_get(mrb: *mut mrb_state, c: *mut RClass, sym: mrb_sym) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_mod_cv_defined"]
+    pub fn mrb_mod_cv_defined(mrb: *mut mrb_state, c: *mut RClass, sym: mrb_sym) -> mrb_bool;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_mark_gv"]
+    pub fn mrb_gc_mark_gv(arg1: *mut mrb_state);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_free_gv"]
+    pub fn mrb_gc_free_gv(arg1: *mut mrb_state);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_mark_iv"]
+    pub fn mrb_gc_mark_iv(arg1: *mut mrb_state, arg2: *mut RObject);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_mark_iv_size"]
+    pub fn mrb_gc_mark_iv_size(arg1: *mut mrb_state, arg2: *mut RObject) -> usize;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_free_iv"]
+    pub fn mrb_gc_free_iv(arg1: *mut mrb_state, arg2: *mut RObject);
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct iv_tbl {
