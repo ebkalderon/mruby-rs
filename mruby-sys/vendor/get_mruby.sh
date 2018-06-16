@@ -46,12 +46,12 @@ cp -R include ../mruby-out
 # Adds src and C-compiled mrblib.
 
 cp src/*.c ../mruby-out/src
-cp src/*.h ../mruby-out/src
+cp src/*.h ../mruby-out/include
 cp build/host/mrblib/mrblib.c ../mruby-out/src/mrblib/mrblib.c
 
 # Removes incompatible files.
 
-find mrbgems -type f ! -name "*.c" -and ! -name "*.h" -and ! -name "*.def" -delete
+find mrbgems -type f ! -name "*.c" -and ! -name "*.h" -and ! -name "*.def" -and ! -name "*.cstub" -delete
 find mrbgems -type d -empty -delete
 find build/host/mrbgems -type f ! -name "*.c" -and ! -name "*.h" -delete
 find build/host/mrbgems -type d -empty -delete
@@ -61,17 +61,27 @@ find build/host/mrbgems -type d -empty -delete
 rm -rf mrbgems/mruby-bin*
 rm -rf build/host/mrbgems/mruby-bin*
 
-rm -rf mrbgems/mruby-io*
-rm -rf build/host/mrbgems/mruby-io*
-
 rm -rf mrbgems/mruby-test
 rm -rf build/host/mrbgems/mruby-test
+
+# Copies some .h files from gems.
+
+cp -R mrbgems/mruby-io/include/mruby/* ../mruby-out/include/mruby
 
 # Copies all gems.
 
 cp -R mrbgems/* ../mruby-out/src/mrbgems
 cp -R build/host/mrbgems/* ../mruby-out/src/mrbgems
+cp mrbgems/mruby-socket/src/const.cstub ../mruby-out/src/mrbgems/mruby-socket/src/const.cstub
 
 cd ..
+
+readonly WHITELIST='_mrb*|MRB*|MRUBY*|mrb*|mruby*'
+
+bindgen --whitelist-type "${WHITELIST}" \
+  --whitelist-function "${WHITELIST}" \
+  --whitelist-var "${WHITELIST}" \
+  $CURRENT/wrapper.h \
+  -- -I mruby-out/include/ > $CURRENT/../src/ffi.rs
 
 tar -cf $CURRENT/mruby-out.tar mruby-out

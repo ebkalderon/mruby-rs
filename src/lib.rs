@@ -2,6 +2,10 @@ extern crate mruby_sys;
 
 use mruby_sys::mrb_state;
 
+pub trait ToMruby {
+    fn to_mruby(&self) {}
+}
+
 #[derive(Debug)]
 pub enum RuntimeError {
     Init,
@@ -43,8 +47,8 @@ mod tests {
     fn hello_world() {
         let mut mrb = Mruby::new().unwrap();
 
-//         unsafe {
-//             mruby_sys::mrb_load_string(mrb.state, "puts \"Hello world\"!".as_ptr() as *const i8);
-//         }
+        unsafe {
+            mruby_sys::mrb_load_string(mrb.state, "puts \"Hello world!\"".as_ptr() as *const i8);
+        }
     }
 }

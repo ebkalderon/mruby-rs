@@ -5,5 +5,5 @@ authors = ["Eyal Kalderon <ebkalderon@gmail.com>"]
 
 [dependencies.mruby-sys]
 version = "0.1.0"
-features = ["static"]
+# features = ["static"]
 path = "./mruby-sys/"

@@ -11,7 +11,10 @@ mod tests {
     use super::*;
 
     #[test]
-    fn thing() {
-
+    fn open_close() {
+        unsafe {
+            let state = mrb_open();
+            mrb_close(state);
+        }
     }
 }

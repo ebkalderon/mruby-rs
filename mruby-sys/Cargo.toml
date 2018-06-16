@@ -12,11 +12,9 @@ disable-stdio = []
 use-floats = []
 utf8 = []
 
-static = []
-dynamic = []
-
 [dependencies]
 
 [build-dependencies]
 cc = "1.0"
+tar = "0.4.15"
 walkdir = "2.1"
