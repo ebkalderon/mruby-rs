@@ -13,12 +13,6 @@ const MRUBY_INCLUDE: &str = "mruby-out/include";
 const MRUBY_SRC: &str = "mruby-out/src";
 
 fn main() {
-    // if cfg!(all(feature = "static", feature = "dynamic")) {
-    //     panic!("Cannot build `static` and `dynamic` features at the same time.")
-    // } else if cfg!(not(any(feature = "static", feature = "dynamic"))) {
-    //     panic!("Please select either the `static` or `dynamic` feature.")
-    // }
-
     let out_dir = env::var("OUT_DIR").unwrap();
 
     let mut archive = Archive::new(File::open("vendor/mruby-out.tar").unwrap());
