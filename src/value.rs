@@ -13,16 +13,16 @@ impl State {
     }
 
     pub fn serialize_array<T: ToValue>(&mut self, val: &[T]) -> Value {
-        use mruby_sys::{mrb_ary_new, mrb_ary_push};
+        use mruby_sys::mrb_ary_new_from_values;
 
         let State(inner) = *self;
-        unsafe {
-            let array = mrb_ary_new(inner);
-            for item in val {
-                let v = item.to_value(self);
-                mrb_ary_push(inner, array, v.0);
-            }
+        let array: Vec<mrb_value> = val.iter()
+            .map(|v| v.to_value(self))
+            .map(|Value(inner)| inner)
+            .collect();
 
+        unsafe {
+            let array = mrb_ary_new_from_values(inner, array.len() as mrb_int, array.as_ptr());
             Value(array)
         }
     }
