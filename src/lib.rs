@@ -19,16 +19,12 @@ pub struct Mruby {
 
 impl Mruby {
     pub fn new() -> Result<Self, Error> {
-        let state = unsafe {
-            let state = mruby_sys::mrb_open();
-            if state.is_null() {
-                return Err(Error::Init);
-            } else {
-                state
-            }
-        };
-
-        Ok(Mruby { state })
+        let state = unsafe { mruby_sys::mrb_open() };
+        if !state.is_null() {
+            Ok(Mruby { state })
+        } else {
+            Err(Error::Init)
+        }
     }
 
     pub fn register_global<V: ToValue>(&mut self, name: &str, global: V) {
