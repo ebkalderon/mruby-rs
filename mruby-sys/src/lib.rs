@@ -17,7 +17,7 @@ extern "C" {
 
     #[link_name = "\u{1}_mrb_ext_fixnum_value"]
     pub fn mrb_ext_fixnum_value(i: mrb_int) -> mrb_value;
-    
+
     #[cfg(feature = "use-floats")]
     #[link_name = "\u{1}_mrb_ext_float_value"]
     pub fn mrb_ext_float_value(mrb: *mut mrb_state, f: mrb_float) -> mrb_value;

@@ -5,7 +5,7 @@ use mruby_sys::{mrb_bool, mrb_float, mrb_int, mrb_state, mrb_value};
 pub struct Value(pub(crate) mrb_value);
 
 #[derive(Debug)]
-pub struct State(pub(crate) *mut mrb_state);
+pub struct State(*mut mrb_state);
 
 impl State {
     pub(crate) fn new(state: *mut mrb_state) -> Self {
@@ -34,7 +34,7 @@ impl State {
 
     pub fn serialize_char(&mut self, val: char) -> Value {
         use std::str::from_utf8_unchecked;
-        
+
         let buf = [val as u8];
         let thing = unsafe { from_utf8_unchecked(&buf) };
         thing.to_value(self)
