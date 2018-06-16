@@ -34,6 +34,9 @@ extern "C" {
 
 #[cfg(test)]
 mod tests {
+    use std::ffi::CString;
+    use std::ptr;
+
     use super::*;
 
     #[test]
@@ -41,6 +44,63 @@ mod tests {
         unsafe {
             let state = mrb_open();
             mrb_close(state);
+        }
+    }
+
+    #[test]
+    fn ext_bool_value() {
+        unsafe {
+            let _true = mrb_ext_bool_value(true as mrb_bool);
+            let _false = mrb_ext_bool_value(false as mrb_bool);
+        }
+    }
+
+    #[test]
+    fn ext_cptr_value() {
+        unsafe {
+            let state = mrb_open();
+            let _val = mrb_ext_cptr_value(state, ptr::null_mut());
+            mrb_close(state);
+        }
+    }
+
+    #[test]
+    fn ext_fixnum_value() {
+        unsafe {
+            let _val = mrb_ext_fixnum_value(42 as mrb_int);
+        }
+    }
+
+    #[cfg(feature = "use-floats")]
+    #[test]
+    fn ext_float_value() {
+        unsafe {
+            let state = mrb_open();
+            let _val = mrb_ext_float_value(state, 3.14159f32 as mrb_float);
+            mrb_close(state);
+        }
+    }
+
+    #[test]
+    fn ext_nil_value() {
+        unsafe {
+            let _val = mrb_ext_nil_value();
+        }
+    }
+
+    #[test]
+    fn ext_symbol_value() {
+        unsafe {
+            let state = mrb_open();
+            let sym = mrb_intern_cstr(state, CString::new("example").unwrap().as_ptr());
+            let _val = mrb_ext_symbol_value(sym);
+        }
+    }
+
+    #[test]
+    fn ext_undef_value() {
+        unsafe {
+            let _val = mrb_ext_undef_value();
         }
     }
 }
