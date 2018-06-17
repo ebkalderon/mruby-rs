@@ -148,6 +148,8 @@ pub const MRB_FLAG_IS_INHERITED: u32 = 2097152;
 pub const MRB_INSTANCE_TT_MASK: u32 = 255;
 pub const MRB_PARSER_TOKBUF_MAX: u32 = 65536;
 pub const MRB_PARSER_TOKBUF_SIZE: u32 = 256;
+pub const MRB_HASH_DEFAULT: u32 = 1;
+pub const MRB_HASH_PROC_DEFAULT: u32 = 2;
 pub const MRB_STR_SHARED: u32 = 1;
 pub const MRB_STR_FSHARED: u32 = 2;
 pub const MRB_STR_NOFREE: u32 = 4;
@@ -5111,6 +5113,300 @@ extern "C" {
         len: usize,
         cxt: *mut mrbc_context,
     ) -> mrb_value;
+}
+/// khash definitions used in mruby's hash table.
+pub type khint_t = u32;
+/// Hash class
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct RHash {
+    pub _bitfield_1: __BindgenBitfieldUnit<[u8; 4usize], u32>,
+    pub c: *mut RClass,
+    pub gcnext: *mut RBasic,
+    pub iv: *mut iv_tbl,
+    pub ht: *mut kh_ht,
+}
+#[test]
+fn bindgen_test_layout_RHash() {
+    assert_eq!(
+        ::std::mem::size_of::<RHash>(),
+        40usize,
+        concat!("Size of: ", stringify!(RHash))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<RHash>(),
+        8usize,
+        concat!("Alignment of ", stringify!(RHash))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<RHash>())).c as *const _ as usize },
+        8usize,
+        concat!("Offset of field: ", stringify!(RHash), "::", stringify!(c))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<RHash>())).gcnext as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(RHash),
+            "::",
+            stringify!(gcnext)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<RHash>())).iv as *const _ as usize },
+        24usize,
+        concat!("Offset of field: ", stringify!(RHash), "::", stringify!(iv))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<RHash>())).ht as *const _ as usize },
+        32usize,
+        concat!("Offset of field: ", stringify!(RHash), "::", stringify!(ht))
+    );
+}
+impl RHash {
+    #[inline]
+    pub fn tt(&self) -> mrb_vtype {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 8u8) as u32) }
+    }
+    #[inline]
+    pub fn set_tt(&mut self, val: mrb_vtype) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(0usize, 8u8, val as u64)
+        }
+    }
+    #[inline]
+    pub fn color(&self) -> u32 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(8usize, 3u8) as u32) }
+    }
+    #[inline]
+    pub fn set_color(&mut self, val: u32) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(8usize, 3u8, val as u64)
+        }
+    }
+    #[inline]
+    pub fn flags(&self) -> u32 {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(11usize, 21u8) as u32) }
+    }
+    #[inline]
+    pub fn set_flags(&mut self, val: u32) {
+        unsafe {
+            let val: u32 = ::std::mem::transmute(val);
+            self._bitfield_1.set(11usize, 21u8, val as u64)
+        }
+    }
+    #[inline]
+    pub fn new_bitfield_1(
+        tt: mrb_vtype,
+        color: u32,
+        flags: u32,
+    ) -> __BindgenBitfieldUnit<[u8; 4usize], u32> {
+        let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize], u32> =
+            Default::default();
+        __bindgen_bitfield_unit.set(0usize, 8u8, {
+            let tt: u32 = unsafe { ::std::mem::transmute(tt) };
+            tt as u64
+        });
+        __bindgen_bitfield_unit.set(8usize, 3u8, {
+            let color: u32 = unsafe { ::std::mem::transmute(color) };
+            color as u64
+        });
+        __bindgen_bitfield_unit.set(11usize, 21u8, {
+            let flags: u32 = unsafe { ::std::mem::transmute(flags) };
+            flags as u64
+        });
+        __bindgen_bitfield_unit
+    }
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_new_capa"]
+    pub fn mrb_hash_new_capa(arg1: *mut mrb_state, arg2: mrb_int) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_new"]
+    pub fn mrb_hash_new(mrb: *mut mrb_state) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_set"]
+    pub fn mrb_hash_set(mrb: *mut mrb_state, hash: mrb_value, key: mrb_value, val: mrb_value);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_get"]
+    pub fn mrb_hash_get(mrb: *mut mrb_state, hash: mrb_value, key: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_fetch"]
+    pub fn mrb_hash_fetch(
+        mrb: *mut mrb_state,
+        hash: mrb_value,
+        key: mrb_value,
+        def: mrb_value,
+    ) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_delete_key"]
+    pub fn mrb_hash_delete_key(mrb: *mut mrb_state, hash: mrb_value, key: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_keys"]
+    pub fn mrb_hash_keys(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_check_hash_type"]
+    pub fn mrb_check_hash_type(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_empty_p"]
+    pub fn mrb_hash_empty_p(mrb: *mut mrb_state, self_: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_values"]
+    pub fn mrb_hash_values(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_clear"]
+    pub fn mrb_hash_clear(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct mrb_hash_value {
+    pub v: mrb_value,
+    pub n: mrb_int,
+}
+#[test]
+fn bindgen_test_layout_mrb_hash_value() {
+    assert_eq!(
+        ::std::mem::size_of::<mrb_hash_value>(),
+        24usize,
+        concat!("Size of: ", stringify!(mrb_hash_value))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<mrb_hash_value>(),
+        8usize,
+        concat!("Alignment of ", stringify!(mrb_hash_value))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<mrb_hash_value>())).v as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(mrb_hash_value),
+            "::",
+            stringify!(v)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<mrb_hash_value>())).n as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(mrb_hash_value),
+            "::",
+            stringify!(n)
+        )
+    );
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct kh_ht {
+    pub n_buckets: khint_t,
+    pub size: khint_t,
+    pub n_occupied: khint_t,
+    pub ed_flags: *mut u8,
+    pub keys: *mut mrb_value,
+    pub vals: *mut mrb_hash_value,
+}
+#[test]
+fn bindgen_test_layout_kh_ht() {
+    assert_eq!(
+        ::std::mem::size_of::<kh_ht>(),
+        40usize,
+        concat!("Size of: ", stringify!(kh_ht))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<kh_ht>(),
+        8usize,
+        concat!("Alignment of ", stringify!(kh_ht))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<kh_ht>())).n_buckets as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(kh_ht),
+            "::",
+            stringify!(n_buckets)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<kh_ht>())).size as *const _ as usize },
+        4usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(kh_ht),
+            "::",
+            stringify!(size)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<kh_ht>())).n_occupied as *const _ as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(kh_ht),
+            "::",
+            stringify!(n_occupied)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<kh_ht>())).ed_flags as *const _ as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(kh_ht),
+            "::",
+            stringify!(ed_flags)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<kh_ht>())).keys as *const _ as usize },
+        24usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(kh_ht),
+            "::",
+            stringify!(keys)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<kh_ht>())).vals as *const _ as usize },
+        32usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(kh_ht),
+            "::",
+            stringify!(vals)
+        )
+    );
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_hash_tbl"]
+    pub fn mrb_hash_tbl(mrb: *mut mrb_state, hash: mrb_value) -> *mut kh_ht;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_mark_hash"]
+    pub fn mrb_gc_mark_hash(arg1: *mut mrb_state, arg2: *mut RHash);
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_mark_hash_size"]
+    pub fn mrb_gc_mark_hash_size(arg1: *mut mrb_state, arg2: *mut RHash) -> usize;
+}
+extern "C" {
+    #[link_name = "\u{1}_mrb_gc_free_hash"]
+    pub fn mrb_gc_free_hash(arg1: *mut mrb_state, arg2: *mut RHash);
 }
 extern "C" {
     #[link_name = "\u{1}_mrb_digitmap"]

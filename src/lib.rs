@@ -54,14 +54,21 @@ unsafe impl Send for Mruby {}
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
     use std::ffi::CString;
 
     use super::*;
 
     #[test]
     fn hello_world() {
+        let mut map = HashMap::new();
+        map.reserve(3);
+        map.insert("first", 16);
+        map.insert("second", 17);
+        map.insert("third", 18);
+
         let mut mrb = Mruby::new().unwrap();
-        mrb.register_global("$example", (42, Some("hello"), [1, 2, 3], 64.5f32, true));
+        mrb.register_global("$example", (42, Some("hello"), [1, 2, 3], 64.5f32, &map, true));
 
         unsafe {
             let owned = CString::new("puts $example").expect("Unterminated string");

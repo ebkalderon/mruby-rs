@@ -1,4 +1,6 @@
+use std::collections::{BTreeMap, HashMap};
 use std::ffi::CString;
+use std::hash::Hash;
 
 use mruby_sys::{mrb_bool, mrb_float, mrb_int, mrb_state, mrb_value};
 
@@ -50,6 +52,32 @@ impl State {
 
         let State(inner) = *self;
         unsafe { Value(mrb_ext_float_value(inner, val)) }
+    }
+
+    pub fn serialize_hash<'a, M, K, V>(&mut self, map: M) -> Value
+    where
+        M: Iterator<Item = (&'a K, &'a V)>,
+        K: ToValue + 'a,
+        V: ToValue + 'a,
+    {
+        use mruby_sys::{mrb_hash_new, mrb_hash_new_capa, mrb_hash_set};
+
+        let State(inner) = *self;
+        let hash = unsafe {
+            if let (_, Some(size)) = map.size_hint() {
+                mrb_hash_new_capa(inner, size as mrb_int)
+            } else {
+                mrb_hash_new(inner)
+            }
+        };
+
+        for (key, value) in map {
+            let Value(k) = key.to_value(self);
+            let Value(v) = value.to_value(self);
+            unsafe { mrb_hash_set(inner, hash, k, v); }
+        }
+
+        Value(hash)
     }
 
     pub fn serialize_nil(&mut self) -> Value {
@@ -236,3 +264,23 @@ impl_value_tuple!(T0 T1 T2 T3 T4 T5 T6 T7 T8 T9);
 impl_value_tuple!(T0 T1 T2 T3 T4 T5 T6 T7 T8 T9 T10);
 impl_value_tuple!(T0 T1 T2 T3 T4 T5 T6 T7 T8 T9 T10 T11);
 impl_value_tuple!(T0 T1 T2 T3 T4 T5 T6 T7 T8 T9 T10 T11 T12);
+
+impl<K, V> ToValue for BTreeMap<K, V>
+where
+    K: ToValue + Eq + Hash,
+    V: ToValue + Eq + Hash,
+{
+    fn to_value(&self, state: &mut State) -> Value {
+        state.serialize_hash(self.iter())
+    }
+}
+
+impl<K, V> ToValue for HashMap<K, V>
+where
+    K: ToValue + Eq + Hash,
+    V: ToValue + Eq + Hash,
+{
+    fn to_value(&self, state: &mut State) -> Value {
+        state.serialize_hash(self.iter())
+    }
+}
