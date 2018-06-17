@@ -17,14 +17,14 @@ impl State {
     pub fn serialize_array<T: ToValue>(&mut self, val: &[T]) -> Value {
         use mruby_sys::mrb_ary_new_from_values;
 
-        let State(inner) = *self;
+        let State(state) = *self;
         let array: Vec<mrb_value> = val.iter()
             .map(|v| v.to_value(self))
             .map(|Value(inner)| inner)
             .collect();
 
         unsafe {
-            let array = mrb_ary_new_from_values(inner, array.len() as mrb_int, array.as_ptr());
+            let array = mrb_ary_new_from_values(state, array.len() as mrb_int, array.as_ptr());
             Value(array)
         }
     }
@@ -42,7 +42,7 @@ impl State {
         thing.to_value(self)
     }
 
-    pub fn serialize_fixed_num(&mut self, val: mrb_int) -> Value {
+    pub fn serialize_integer(&mut self, val: mrb_int) -> Value {
         use mruby_sys::mrb_ext_fixnum_value;
         unsafe { Value(mrb_ext_fixnum_value(val)) }
     }
@@ -50,8 +50,8 @@ impl State {
     pub fn serialize_float(&mut self, val: mrb_float) -> Value {
         use mruby_sys::mrb_ext_float_value;
 
-        let State(inner) = *self;
-        unsafe { Value(mrb_ext_float_value(inner, val)) }
+        let State(state) = *self;
+        unsafe { Value(mrb_ext_float_value(state, val)) }
     }
 
     pub fn serialize_hash<'a, M, K, V>(&mut self, map: M) -> Value
@@ -62,19 +62,19 @@ impl State {
     {
         use mruby_sys::{mrb_hash_new, mrb_hash_new_capa, mrb_hash_set};
 
-        let State(inner) = *self;
+        let State(state) = *self;
         let hash = unsafe {
             if let (_, Some(size)) = map.size_hint() {
-                mrb_hash_new_capa(inner, size as mrb_int)
+                mrb_hash_new_capa(state, size as mrb_int)
             } else {
-                mrb_hash_new(inner)
+                mrb_hash_new(state)
             }
         };
 
         for (key, value) in map {
             let Value(k) = key.to_value(self);
             let Value(v) = value.to_value(self);
-            unsafe { mrb_hash_set(inner, hash, k, v); }
+            unsafe { mrb_hash_set(state, hash, k, v); }
         }
 
         Value(hash)
@@ -93,10 +93,10 @@ impl State {
     pub fn serialize_string<S: AsRef<str>>(&mut self, val: S) -> Value {
         use mruby_sys::mrb_str_new_cstr;
 
-        let State(inner) = *self;
+        let State(state) = *self;
         unsafe {
             let s = CString::new(val.as_ref()).expect("Unterminated string");
-            Value(mrb_str_new_cstr(inner, s.as_ptr() as *mut _))
+            Value(mrb_str_new_cstr(state, s.as_ptr() as *mut _))
         }
     }
 }
@@ -137,37 +137,37 @@ impl ToValue for f64 {
 
 impl ToValue for i8 {
     fn to_value(&self, state: &mut State) -> Value {
-        state.serialize_fixed_num(*self as mrb_int)
+        state.serialize_integer(*self as mrb_int)
     }
 }
 
 impl ToValue for i32 {
     fn to_value(&self, state: &mut State) -> Value {
-        state.serialize_fixed_num(*self as mrb_int)
+        state.serialize_integer(*self as mrb_int)
     }
 }
 
 impl ToValue for i64 {
     fn to_value(&self, state: &mut State) -> Value {
-        state.serialize_fixed_num(*self as mrb_int)
+        state.serialize_integer(*self as mrb_int)
     }
 }
 
 impl ToValue for u8 {
     fn to_value(&self, state: &mut State) -> Value {
-        state.serialize_fixed_num(*self as mrb_int)
+        state.serialize_integer(*self as mrb_int)
     }
 }
 
 impl ToValue for u32 {
     fn to_value(&self, state: &mut State) -> Value {
-        state.serialize_fixed_num(*self as mrb_int)
+        state.serialize_integer(*self as mrb_int)
     }
 }
 
 impl ToValue for u64 {
     fn to_value(&self, state: &mut State) -> Value {
-        state.serialize_fixed_num(*self as mrb_int)
+        state.serialize_integer(*self as mrb_int)
     }
 }
 
