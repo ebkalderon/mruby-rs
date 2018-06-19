@@ -5,6 +5,7 @@ use mruby_sys::mrb_state;
 use value::{ToValue, Value};
 
 mod class;
+mod module;
 mod value;
 
 #[derive(Debug)]
