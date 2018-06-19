@@ -25,7 +25,7 @@ else
   mkdir /tmp/mruby
 fi
 
-cd /tmp/mruby
+cd /tmp/mruby || exit 1
 
 wget https://github.com/mruby/mruby/archive/$VERSION.zip
 unzip -u $VERSION.zip
@@ -33,7 +33,7 @@ unzip -u $VERSION.zip
 mkdir -p mruby-out/src/mrblib
 mkdir -p mruby-out/src/mrbgems
 
-cd mruby-$VERSION
+cd mruby-$VERSION || exit 1
 
 # minirake compiles the compiler and rb files to C.
 
@@ -76,13 +76,16 @@ cp mrbgems/mruby-socket/src/const.cstub ../mruby-out/src/mrbgems/mruby-socket/sr
 
 cd ..
 
+# Generate FFI bindings with Bindgen.
+
 readonly WHITELIST='_mrb*|MRB*|MRUBY*|mrb*|mruby*'
 
 bindgen --whitelist-type "${WHITELIST}" \
   --whitelist-function "${WHITELIST}" \
   --whitelist-var "${WHITELIST}" \
   --generate-inline-functions \
-  $CURRENT/wrapper.h \
-  -- -I mruby-out/include/ > $CURRENT/../src/ffi.rs
+  --distrust-clang-mangling \
+  ${CURRENT}/wrapper.h \
+  -- -I mruby-out/include/ > ${CURRENT}/../src/ffi.rs
 
-tar -cf $CURRENT/mruby-out.tar mruby-out
+tar -cf ${CURRENT}/mruby-out.tar mruby-out
