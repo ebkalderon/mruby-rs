@@ -27,6 +27,7 @@ pub enum Kind {
     Undefined,
 }
 
+#[derive(Clone, Debug)]
 pub struct Value(pub(crate) mrb_value);
 
 impl Value {
