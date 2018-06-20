@@ -9,19 +9,26 @@ use std::os::raw::c_void;
 mod ffi;
 
 extern "C" {
+    #[inline]
     pub fn mrb_ext_bool_value(boolean: mrb_bool) -> mrb_value;
 
+    #[inline]
     pub fn mrb_ext_cptr_value(mrb: *mut mrb_state, p: *mut c_void) -> mrb_value;
 
+    #[inline]
     pub fn mrb_ext_fixnum_value(i: mrb_int) -> mrb_value;
 
     #[cfg(feature = "use-floats")]
+    #[inline]
     pub fn mrb_ext_float_value(mrb: *mut mrb_state, f: mrb_float) -> mrb_value;
 
+    #[inline]
     pub fn mrb_ext_nil_value() -> mrb_value;
 
+    #[inline]
     pub fn mrb_ext_symbol_value(i: mrb_sym) -> mrb_value;
 
+    #[inline]
     pub fn mrb_ext_undef_value() -> mrb_value;
 }
 
