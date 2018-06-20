@@ -22,15 +22,23 @@ fn main() {
     build.warnings(false).opt_level(3);
 
     if cfg!(feature = "debug") {
-        build.define("ENABLE_DEBUG", None);
+        build.define("MRB_ENABLE_DEBUG", None);
     }
 
     if cfg!(feature = "disable-stdio") {
-        build.define("DISABLE_STDIO", None);
+        build.define("MRB_DISABLE_STDIO", None);
     }
 
-    if cfg!(feature = "use-floats") {
+    if cfg!(feature = "disable-floats") {
+        build.define("MRB_WITHOUT_FLOAT", None);
+    }
+
+    if cfg!(feature = "use-f32") {
         build.define("MRB_USE_FLOAT", None);
+
+        if cfg!(feature = "disable-floats") {
+            panic!("Cannot use `disable-floats` and `use-f32` features together");
+        }
     }
 
     if cfg!(feature = "utf8") {

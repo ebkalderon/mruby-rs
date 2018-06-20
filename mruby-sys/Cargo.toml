@@ -6,10 +6,11 @@ links = "libmruby"
 build = "build.rs"
 
 [features]
-default = ["use-floats", "utf8"]
+default = ["utf8"]
 debug = []
+disable-floats = []
 disable-stdio = []
-use-floats = []
+use-f32 = []
 utf8 = []
 
 [dependencies]

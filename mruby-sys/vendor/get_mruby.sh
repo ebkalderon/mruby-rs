@@ -79,15 +79,61 @@ cd ..
 # Generate FFI bindings with Bindgen.
 
 readonly WHITELIST='_mrb*|MRB*|MRUBY*|mrb*|mruby*'
-
-bindgen --whitelist-type "${WHITELIST}" \
+readonly SWITCHES=(
+  --whitelist-type "${WHITELIST}" \
   --whitelist-function "${WHITELIST}" \
   --whitelist-var "${WHITELIST}" \
   --generate-inline-functions \
   --distrust-clang-mangling \
   --opaque-type 'FILE' \
-  --impl-debug \
-  ${CURRENT}/wrapper.h \
-  -- -I mruby-out/include/ > ${CURRENT}/../src/ffi.rs
+  --impl-debug
+)
 
-tar -cf ${CURRENT}/mruby-out.tar mruby-out
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -I mruby-out/include/ > "${CURRENT}/../src/double_nodebug_stdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_DISABLE_STDIO \
+  -I mruby-out/include/ > "${CURRENT}/../src/double_nodebug_nostdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_ENABLE_DEBUG_HOOK \
+  -I mruby-out/include/ > "${CURRENT}/../src/double_debug_stdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_ENABLE_DEBUG_HOOK -DMRB_DISABLE_STDIO \
+  -I mruby-out/include/ > "${CURRENT}/../src/double_debug_nostdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_USE_FLOAT \
+  -I mruby-out/include/ > "${CURRENT}/../src/float_nodebug_stdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_USE_FLOAT -DMRB_DISABLE_STDIO \
+  -I mruby-out/include/ > "${CURRENT}/../src/float_nodebug_nostdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_USE_FLOAT -DMRB_ENABLE_DEBUG_HOOK \
+  -I mruby-out/include/ > "${CURRENT}/../src/float_debug_stdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_WITHOUT_FLOAT -DMRB_ENABLE_DEBUG_HOOK -DMRB_DISABLE_STDIO \
+  -I mruby-out/include/ > "${CURRENT}/../src/float_debug_nostdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_WITHOUT_FLOAT \
+  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_nodebug_stdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_WITHOUT_FLOAT -DMRB_DISABLE_STDIO \
+  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_nodebug_nostdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_WITHOUT_FLOAT -DMRB_ENABLE_DEBUG_HOOK \
+  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_debug_stdio.rs"
+
+bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
+  -- -DMRB_WITHOUT_FLOAT -DMRB_ENABLE_DEBUG_HOOK -DMRB_DISABLE_STDIO \
+  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_debug_nostdio.rs"
+
+# tar -cf ${CURRENT}/mruby-out.tar mruby-out
