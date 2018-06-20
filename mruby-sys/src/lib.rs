@@ -74,6 +74,7 @@ extern "C" {
     #[inline]
     pub fn mrb_ext_fixnum_value(i: mrb_int) -> mrb_value;
 
+    #[cfg(not(feature = "disable-floats"))]
     #[inline]
     pub fn mrb_ext_float_value(mrb: *mut mrb_state, f: mrb_float) -> mrb_value;
 
