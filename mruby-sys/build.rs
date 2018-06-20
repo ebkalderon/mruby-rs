@@ -55,7 +55,7 @@ fn main() {
     println!("cargo:rustc-link-lib=m");
 
     build.file("vendor/wrapper.c");
-    build.compile("libmruby.a");
+    build.compile("mruby");
 }
 
 fn is_c_file(entry: &DirEntry) -> bool {

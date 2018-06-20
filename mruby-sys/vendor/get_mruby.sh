@@ -85,6 +85,8 @@ bindgen --whitelist-type "${WHITELIST}" \
   --whitelist-var "${WHITELIST}" \
   --generate-inline-functions \
   --distrust-clang-mangling \
+  --opaque-type 'FILE' \
+  --impl-debug \
   ${CURRENT}/wrapper.h \
   -- -I mruby-out/include/ > ${CURRENT}/../src/ffi.rs
 

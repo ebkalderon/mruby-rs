@@ -163,396 +163,7 @@ pub type __uint8_t = ::std::os::raw::c_uchar;
 pub type __uint16_t = ::std::os::raw::c_ushort;
 pub type __uint32_t = ::std::os::raw::c_uint;
 pub type __int64_t = ::std::os::raw::c_long;
-pub type __off_t = ::std::os::raw::c_long;
-pub type __off64_t = ::std::os::raw::c_long;
-pub type FILE = _IO_FILE;
-pub type _IO_lock_t = ::std::os::raw::c_void;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _IO_marker {
-    pub _next: *mut _IO_marker,
-    pub _sbuf: *mut _IO_FILE,
-    pub _pos: ::std::os::raw::c_int,
-}
-#[test]
-fn bindgen_test_layout__IO_marker() {
-    assert_eq!(
-        ::std::mem::size_of::<_IO_marker>(),
-        24usize,
-        concat!("Size of: ", stringify!(_IO_marker))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_IO_marker>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_IO_marker))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_marker>()))._next as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_marker),
-            "::",
-            stringify!(_next)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_marker>()))._sbuf as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_marker),
-            "::",
-            stringify!(_sbuf)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_marker>()))._pos as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_marker),
-            "::",
-            stringify!(_pos)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _IO_FILE {
-    pub _flags: ::std::os::raw::c_int,
-    pub _IO_read_ptr: *mut ::std::os::raw::c_char,
-    pub _IO_read_end: *mut ::std::os::raw::c_char,
-    pub _IO_read_base: *mut ::std::os::raw::c_char,
-    pub _IO_write_base: *mut ::std::os::raw::c_char,
-    pub _IO_write_ptr: *mut ::std::os::raw::c_char,
-    pub _IO_write_end: *mut ::std::os::raw::c_char,
-    pub _IO_buf_base: *mut ::std::os::raw::c_char,
-    pub _IO_buf_end: *mut ::std::os::raw::c_char,
-    pub _IO_save_base: *mut ::std::os::raw::c_char,
-    pub _IO_backup_base: *mut ::std::os::raw::c_char,
-    pub _IO_save_end: *mut ::std::os::raw::c_char,
-    pub _markers: *mut _IO_marker,
-    pub _chain: *mut _IO_FILE,
-    pub _fileno: ::std::os::raw::c_int,
-    pub _flags2: ::std::os::raw::c_int,
-    pub _old_offset: __off_t,
-    pub _cur_column: ::std::os::raw::c_ushort,
-    pub _vtable_offset: ::std::os::raw::c_schar,
-    pub _shortbuf: [::std::os::raw::c_char; 1usize],
-    pub _lock: *mut _IO_lock_t,
-    pub _offset: __off64_t,
-    pub __pad1: *mut ::std::os::raw::c_void,
-    pub __pad2: *mut ::std::os::raw::c_void,
-    pub __pad3: *mut ::std::os::raw::c_void,
-    pub __pad4: *mut ::std::os::raw::c_void,
-    pub __pad5: usize,
-    pub _mode: ::std::os::raw::c_int,
-    pub _unused2: [::std::os::raw::c_char; 20usize],
-}
-#[test]
-fn bindgen_test_layout__IO_FILE() {
-    assert_eq!(
-        ::std::mem::size_of::<_IO_FILE>(),
-        216usize,
-        concat!("Size of: ", stringify!(_IO_FILE))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_IO_FILE>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_IO_FILE))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._flags as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_flags)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_read_ptr as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_read_ptr)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_read_end as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_read_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_read_base as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_read_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_write_base as *const _ as usize },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_write_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_write_ptr as *const _ as usize },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_write_ptr)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_write_end as *const _ as usize },
-        48usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_write_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_buf_base as *const _ as usize },
-        56usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_buf_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_buf_end as *const _ as usize },
-        64usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_buf_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_save_base as *const _ as usize },
-        72usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_save_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_backup_base as *const _ as usize },
-        80usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_backup_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_save_end as *const _ as usize },
-        88usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_save_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._markers as *const _ as usize },
-        96usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_markers)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._chain as *const _ as usize },
-        104usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_chain)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._fileno as *const _ as usize },
-        112usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_fileno)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._flags2 as *const _ as usize },
-        116usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_flags2)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._old_offset as *const _ as usize },
-        120usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_old_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._cur_column as *const _ as usize },
-        128usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_cur_column)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._vtable_offset as *const _ as usize },
-        130usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_vtable_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._shortbuf as *const _ as usize },
-        131usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_shortbuf)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._lock as *const _ as usize },
-        136usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_lock)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._offset as *const _ as usize },
-        144usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>())).__pad1 as *const _ as usize },
-        152usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(__pad1)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>())).__pad2 as *const _ as usize },
-        160usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(__pad2)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>())).__pad3 as *const _ as usize },
-        168usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(__pad3)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>())).__pad4 as *const _ as usize },
-        176usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(__pad4)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>())).__pad5 as *const _ as usize },
-        184usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(__pad5)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._mode as *const _ as usize },
-        192usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_mode)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._unused2 as *const _ as usize },
-        196usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_unused2)
-        )
-    );
-}
+pub type FILE = [u64; 27usize];
 /// MRuby Value definition functions and macros.
 pub type mrb_sym = u32;
 pub type mrb_bool = u8;
@@ -962,6 +573,11 @@ fn bindgen_test_layout_mrb_value__bindgen_ty_1() {
         )
     );
 }
+impl ::std::fmt::Debug for mrb_value__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "mrb_value__bindgen_ty_1 {{ union }}")
+    }
+}
 #[test]
 fn bindgen_test_layout_mrb_value() {
     assert_eq!(
@@ -994,6 +610,15 @@ fn bindgen_test_layout_mrb_value() {
             stringify!(tt)
         )
     );
+}
+impl ::std::fmt::Debug for mrb_value {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "mrb_value {{ value: {:?}, tt: {:?} }}",
+            self.value, self.tt
+        )
+    }
 }
 extern "C" {
     pub fn mrb_regexp_p(arg1: *mut mrb_state, arg2: mrb_value) -> mrb_bool;
@@ -1762,6 +1387,11 @@ fn bindgen_test_layout_mrb_method_t__bindgen_ty_1() {
         )
     );
 }
+impl ::std::fmt::Debug for mrb_method_t__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "mrb_method_t__bindgen_ty_1 {{ union }}")
+    }
+}
 #[test]
 fn bindgen_test_layout_mrb_method_t() {
     assert_eq!(
@@ -1784,6 +1414,15 @@ fn bindgen_test_layout_mrb_method_t() {
             stringify!(func_p)
         )
     );
+}
+impl ::std::fmt::Debug for mrb_method_t {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "mrb_method_t {{ func_p: {:?}, __bindgen_anon_1: {:?} }}",
+            self.func_p, self.__bindgen_anon_1
+        )
+    }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -3516,6 +3155,14 @@ fn bindgen_test_layout_RArray__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1() {
         )
     );
 }
+impl ::std::fmt::Debug for RArray__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "RArray__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1 {{ union }}"
+        )
+    }
+}
 #[test]
 fn bindgen_test_layout_RArray__bindgen_ty_1__bindgen_ty_1() {
     assert_eq!(
@@ -3568,6 +3215,15 @@ fn bindgen_test_layout_RArray__bindgen_ty_1__bindgen_ty_1() {
         )
     );
 }
+impl ::std::fmt::Debug for RArray__bindgen_ty_1__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "RArray__bindgen_ty_1__bindgen_ty_1 {{ len: {:?}, aux: {:?}, ptr: {:?} }}",
+            self.len, self.aux, self.ptr
+        )
+    }
+}
 #[test]
 fn bindgen_test_layout_RArray__bindgen_ty_1() {
     assert_eq!(
@@ -3600,6 +3256,11 @@ fn bindgen_test_layout_RArray__bindgen_ty_1() {
             stringify!(embed)
         )
     );
+}
+impl ::std::fmt::Debug for RArray__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "RArray__bindgen_ty_1 {{ union }}")
+    }
 }
 #[test]
 fn bindgen_test_layout_RArray() {
@@ -3638,6 +3299,20 @@ fn bindgen_test_layout_RArray() {
             stringify!(as_)
         )
     );
+}
+impl ::std::fmt::Debug for RArray {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "RArray {{ tt : {:?}, color : {:?}, flags : {:?}, c: {:?}, gcnext: {:?}, as: {:?} }}",
+            self.tt(),
+            self.color(),
+            self.flags(),
+            self.c,
+            self.gcnext,
+            self.as_
+        )
+    }
 }
 impl RArray {
     #[inline]
@@ -4878,6 +4553,11 @@ fn bindgen_test_layout_mrb_parser_state() {
         )
     );
 }
+impl ::std::fmt::Debug for mrb_parser_state {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write ! ( f , "mrb_parser_state {{ mrb: {:?}, pool: {:?}, cells: {:?}, s: {:?}, send: {:?}, f: {:?}, cxt: {:?}, filename: {:?}, lineno: {:?}, column: {:?}, lstate: {:?}, lex_strterm: {:?}, cond_stack: {:?}, cmdarg_stack: {:?}, paren_nest: {:?}, lpar_beg: {:?}, in_def: {:?}, in_single: {:?}, cmd_start : {:?}, locals: {:?}, pb: {:?}, tokbuf: {:?}, buf: [{}], tidx: {:?}, tsiz: {:?}, all_heredocs: {:?}, heredocs_from_nextline: {:?}, parsing_heredoc: {:?}, lex_strterm_before_heredoc: {:?}, heredoc_end_now : {:?}, ylval: {:?}, nerr: {:?}, nwarn: {:?}, tree: {:?}, no_optimize : {:?}, capture_errors : {:?}, error_buffer: {:?}, warn_buffer: {:?}, filename_table: {:?}, filename_table_length: {:?}, current_filename_index: {:?}, jmp: {:?} }}" , self . mrb , self . pool , self . cells , self . s , self . send , self . f , self . cxt , self . filename , self . lineno , self . column , self . lstate , self . lex_strterm , self . cond_stack , self . cmdarg_stack , self . paren_nest , self . lpar_beg , self . in_def , self . in_single , self . cmd_start ( ) , self . locals , self . pb , self . tokbuf , self . buf . iter ( ) . enumerate ( ) . map ( | ( i , v ) | format ! ( "{}{:?}" , if i > 0 { ", " } else { "" } , v ) ) . collect :: < String > ( ) , self . tidx , self . tsiz , self . all_heredocs , self . heredocs_from_nextline , self . parsing_heredoc , self . lex_strterm_before_heredoc , self . heredoc_end_now ( ) , self . ylval , self . nerr , self . nwarn , self . tree , self . no_optimize ( ) , self . capture_errors ( ) , self . error_buffer , self . warn_buffer , self . filename_table , self . filename_table_length , self . current_filename_index , self . jmp )
+    }
+}
 impl mrb_parser_state {
     #[inline]
     pub fn cmd_start(&self) -> mrb_bool {
@@ -5233,6 +4913,11 @@ fn bindgen_test_layout_mrb_hash_value() {
         )
     );
 }
+impl ::std::fmt::Debug for mrb_hash_value {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "mrb_hash_value {{ v: {:?}, n: {:?} }}", self.v, self.n)
+    }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct kh_ht {
@@ -5419,6 +5104,14 @@ fn bindgen_test_layout_RString__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1() {
         )
     );
 }
+impl ::std::fmt::Debug for RString__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "RString__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1 {{ union }}"
+        )
+    }
+}
 #[test]
 fn bindgen_test_layout_RString__bindgen_ty_1__bindgen_ty_1() {
     assert_eq!(
@@ -5471,6 +5164,15 @@ fn bindgen_test_layout_RString__bindgen_ty_1__bindgen_ty_1() {
         )
     );
 }
+impl ::std::fmt::Debug for RString__bindgen_ty_1__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "RString__bindgen_ty_1__bindgen_ty_1 {{ len: {:?}, aux: {:?}, ptr: {:?} }}",
+            self.len, self.aux, self.ptr
+        )
+    }
+}
 #[test]
 fn bindgen_test_layout_RString__bindgen_ty_1() {
     assert_eq!(
@@ -5503,6 +5205,11 @@ fn bindgen_test_layout_RString__bindgen_ty_1() {
             stringify!(ary)
         )
     );
+}
+impl ::std::fmt::Debug for RString__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "RString__bindgen_ty_1 {{ union }}")
+    }
 }
 #[test]
 fn bindgen_test_layout_RString() {
@@ -5546,6 +5253,20 @@ fn bindgen_test_layout_RString() {
             stringify!(as_)
         )
     );
+}
+impl ::std::fmt::Debug for RString {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(
+            f,
+            "RString {{ tt : {:?}, color : {:?}, flags : {:?}, c: {:?}, gcnext: {:?}, as: {:?} }}",
+            self.tt(),
+            self.color(),
+            self.flags(),
+            self.c,
+            self.gcnext,
+            self.as_
+        )
+    }
 }
 impl RString {
     #[inline]
