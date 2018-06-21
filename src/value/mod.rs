@@ -58,7 +58,7 @@ impl Value {
             mruby_sys::mrb_vtype_MRB_TT_DATA => Kind::Data,
             mruby_sys::mrb_vtype_MRB_TT_FIBER => Kind::Fiber,
             mruby_sys::mrb_vtype_MRB_TT_MAXDEFINE => panic!(),
-            tt @ _ => panic!(format!("Unknown `mrb_vtype` specified: {:?}", tt)),
+            tt => panic!(format!("Unknown `mrb_vtype` specified: {:?}", tt)),
         }
     }
 }
