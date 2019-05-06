@@ -9,13 +9,14 @@ use std::path::Path;
 use tar::Archive;
 use walkdir::{DirEntry, WalkDir};
 
-const MRUBY_INCLUDE: &str = "mruby-out/include";
-const MRUBY_SRC: &str = "mruby-out/src";
+const MRUBY_ARCHIVE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/vendor/mruby-out.tar");
+const MRUBY_INCLUDE_DIR: &str = "mruby-out/include";
+const MRUBY_SRC_DIR: &str = "mruby-out/src";
 
 fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
 
-    let mut archive = Archive::new(File::open("vendor/mruby-out.tar").unwrap());
+    let mut archive = Archive::new(File::open(MRUBY_ARCHIVE).unwrap());
     archive.unpack(&out_dir).unwrap();
 
     let mut build = cc::Build::new();
@@ -55,10 +56,10 @@ fn main() {
         build.define("MRB_UTF8_STRING", None);
     }
 
-    let include_dir = Path::new(&out_dir).join(MRUBY_INCLUDE);
+    let include_dir = Path::new(&out_dir).join(MRUBY_INCLUDE_DIR);
     build.include(include_dir);
 
-    let src_dir = Path::new(&env::var("OUT_DIR").unwrap()).join(MRUBY_SRC);
+    let src_dir = Path::new(&out_dir).join(MRUBY_SRC_DIR);
     let sources = WalkDir::new(src_dir)
         .into_iter()
         .filter_entry(|e| e.file_type().is_dir() || is_c_file(e))
@@ -72,7 +73,7 @@ fn main() {
 
     println!("cargo:rustc-link-lib=m");
 
-    build.file("vendor/wrapper.c");
+    build.file(concat!(env!("CARGO_MANIFEST_DIR"), "/vendor/wrapper.c"));
     build.compile("mruby");
 }
 
