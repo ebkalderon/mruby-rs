@@ -1,12 +1,11 @@
-extern crate mruby_sys;
+use mruby_sys::{self, mrb_state};
 
-use mruby_sys::mrb_state;
+use crate::value::{ToValue, Value};
 
-use value::{ToValue, Value};
+pub mod value;
 
 mod class;
 mod module;
-pub  mod value;
 
 #[derive(Debug)]
 pub enum Error {
@@ -29,8 +28,8 @@ impl Mruby {
     }
 
     pub fn register_global<V: ToValue>(&mut self, name: &str, global: V) {
-        use std::ffi::CString;
         use mruby_sys::{mrb_gv_set, mrb_intern_cstr};
+        use std::ffi::CString;
 
         let mut state = value::State::new(self.state);
         let Value(val) = global.to_value(&mut state);
@@ -69,7 +68,10 @@ mod tests {
         map.insert("third", 18);
 
         let mut mrb = Mruby::new().unwrap();
-        mrb.register_global("$example", (42, Some("hello"), [1, 2, 3], 64.5f32, &map, true));
+        mrb.register_global(
+            "$example",
+            (42, Some("hello"), [1, 2, 3], 64.5f32, &map, true),
+        );
 
         unsafe {
             let owned = CString::new("puts $example").expect("Unterminated string");

@@ -4,7 +4,7 @@ use std::ffi::CString;
 
 use mruby_sys::{self, mrb_bool, mrb_float, mrb_int, mrb_state, mrb_value};
 
-use class::Class;
+use crate::class::Class;
 
 pub mod to_value;
 

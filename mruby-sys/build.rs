@@ -1,11 +1,8 @@
-extern crate cc;
-extern crate tar;
-extern crate walkdir;
-
 use std::env;
 use std::fs::File;
 use std::path::Path;
 
+use cc::Build;
 use tar::Archive;
 use walkdir::{DirEntry, WalkDir};
 
@@ -19,7 +16,7 @@ fn main() {
     let mut archive = Archive::new(File::open(MRUBY_ARCHIVE).unwrap());
     archive.unpack(&out_dir).unwrap();
 
-    let mut build = cc::Build::new();
+    let mut build = Build::new();
     build.warnings(false);
 
     if cfg!(target_endian = "big") {

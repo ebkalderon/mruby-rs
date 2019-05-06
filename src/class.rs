@@ -1,6 +1,6 @@
 use mruby_sys::RClass;
 
-use value::State;
+use crate::value::State;
 
 #[derive(Debug)]
 pub struct ClassData(*mut RClass);
