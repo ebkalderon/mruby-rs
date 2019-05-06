@@ -90,7 +90,7 @@ SWITCHES=(
   --whitelist-var "${WHITELIST}"
   --generate-inline-functions
   --distrust-clang-mangling
-  --opaque-type "FILE"
+  --opaque-type 'FILE'
   --impl-debug
 )
 
