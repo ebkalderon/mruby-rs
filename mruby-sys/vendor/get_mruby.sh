@@ -30,14 +30,14 @@ cd "${TEMP_DIR}" || exit 1
 if [ "${VERSION}" == 'latest' ]; then
   curl -Lo latest.zip https://github.com/mruby/mruby/zipball/master
 else
-  curl -LO https://github.com/mruby/mruby/archive/$VERSION.zip
+  curl -LO "https://github.com/mruby/mruby/archive/${VERSION}.zip"
 fi
 
-unzip -u $VERSION.zip
-mv mruby-* mruby-$VERSION
+unzip -u "${VERSION}.zip"
+mv mruby-* "mruby-${VERSION}"
 mkdir -p mruby-out/src/mrblib
 mkdir -p mruby-out/src/mrbgems
-cd mruby-$VERSION || exit 1
+cd "mruby-${VERSION}" || exit 1
 
 # minirake compiles the compiler and rb files to C.
 
