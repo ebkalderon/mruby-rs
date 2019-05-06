@@ -3,7 +3,19 @@ name = "mruby"
 version = "0.1.0"
 authors = ["Eyal Kalderon <ebkalderon@gmail.com>"]
 
+[features]
+default = ["utf8"]
+debug = ["mruby-sys/debug"]
+disable-floats = ["mruby-sys/disable-floats"]
+disable-generational-gc = ["mruby-sys/disable-generational-gc"]
+disable-stdio = ["mruby-sys/disable-stdio"]
+use-f32 = ["mruby-sys/use-f32"]
+utf8 = ["mruby-sys/utf8"]
+
 [dependencies.mruby-sys]
 version = "0.1.0"
-# features = ["static"]
 path = "./mruby-sys/"
+
+[workspace]
+members = [".", "mruby-derive", "mruby-sys"]
+default-members = [".", "mruby-sys"]

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright (C) 2018 Eyal Kalderon
 # Copyright (C) 2016 Dragoș Tiselice
 #
@@ -14,7 +16,10 @@
 # * compile, linker & archiver
 # * unzip
 
-VERSION=1.4.1
+set -Euo pipefail
+
+# VERSION=1.4.1
+VERSION=latest
 CURRENT=$PWD
 
 # Checks is /tmp/mruby needs cleaning or creation.
@@ -27,12 +32,16 @@ fi
 
 cd /tmp/mruby || exit 1
 
-wget https://github.com/mruby/mruby/archive/$VERSION.zip
-unzip -u $VERSION.zip
+if [ "${VERSION}" == 'latest' ]; then
+  curl -Lo latest.zip https://github.com/mruby/mruby/zipball/master
+else
+  curl -LO https://github.com/mruby/mruby/archive/$VERSION.zip
+fi
 
+unzip -u $VERSION.zip
+mv mruby-* mruby-$VERSION
 mkdir -p mruby-out/src/mrblib
 mkdir -p mruby-out/src/mrbgems
-
 cd mruby-$VERSION || exit 1
 
 # minirake compiles the compiler and rb files to C.
@@ -78,62 +87,24 @@ cd ..
 
 # Generate FFI bindings with Bindgen.
 
-readonly WHITELIST='_mrb*|MRB*|MRUBY*|mrb*|mruby*'
-readonly SWITCHES=(
-  --whitelist-type "${WHITELIST}" \
-  --whitelist-function "${WHITELIST}" \
-  --whitelist-var "${WHITELIST}" \
-  --generate-inline-functions \
-  --distrust-clang-mangling \
-  --opaque-type 'FILE' \
+WHITELIST='_mrb*|MRB*|MRUBY*|mrb*|mruby*'
+SWITCHES=(
+  --whitelist-type "${WHITELIST}"
+  --whitelist-function "${WHITELIST}"
+  --whitelist-var "${WHITELIST}"
+  --generate-inline-functions
+  --distrust-clang-mangling
+  --opaque-type "FILE"
   --impl-debug
 )
 
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -I mruby-out/include/ > "${CURRENT}/../src/double_nodebug_stdio.rs"
+while IFS=$'\n' read -r line; do
+  IFS=',' read -ra data <<< "${line}"
+  file_name="${data[0]}"
+  read -ra defines <<< "${data[1]}"
+  bindgen "${SWITCHES[@]/#/}" \
+    "${CURRENT}/wrapper.h" -- "${defines[@]/#/}" \
+    -I mruby-out/include/ > "${CURRENT}/../src/${file_name}.rs"
+done <<< "$(ruby "${CURRENT}/configure.rb")"
 
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_DISABLE_STDIO \
-  -I mruby-out/include/ > "${CURRENT}/../src/double_nodebug_nostdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_ENABLE_DEBUG_HOOK \
-  -I mruby-out/include/ > "${CURRENT}/../src/double_debug_stdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_ENABLE_DEBUG_HOOK -DMRB_DISABLE_STDIO \
-  -I mruby-out/include/ > "${CURRENT}/../src/double_debug_nostdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_USE_FLOAT \
-  -I mruby-out/include/ > "${CURRENT}/../src/float_nodebug_stdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_USE_FLOAT -DMRB_DISABLE_STDIO \
-  -I mruby-out/include/ > "${CURRENT}/../src/float_nodebug_nostdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_USE_FLOAT -DMRB_ENABLE_DEBUG_HOOK \
-  -I mruby-out/include/ > "${CURRENT}/../src/float_debug_stdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_WITHOUT_FLOAT -DMRB_ENABLE_DEBUG_HOOK -DMRB_DISABLE_STDIO \
-  -I mruby-out/include/ > "${CURRENT}/../src/float_debug_nostdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_WITHOUT_FLOAT \
-  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_nodebug_stdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_WITHOUT_FLOAT -DMRB_DISABLE_STDIO \
-  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_nodebug_nostdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_WITHOUT_FLOAT -DMRB_ENABLE_DEBUG_HOOK \
-  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_debug_stdio.rs"
-
-bindgen "${SWITCHES[@]}" "${CURRENT}/wrapper.h" \
-  -- -DMRB_WITHOUT_FLOAT -DMRB_ENABLE_DEBUG_HOOK -DMRB_DISABLE_STDIO \
-  -I mruby-out/include/ > "${CURRENT}/../src/nofloat_debug_nostdio.rs"
-
-# tar -cf ${CURRENT}/mruby-out.tar mruby-out
+tar -cf "${CURRENT}/mruby-out.tar" mruby-out

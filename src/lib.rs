@@ -6,7 +6,7 @@ use value::{ToValue, Value};
 
 mod class;
 mod module;
-mod value;
+pub  mod value;
 
 #[derive(Debug)]
 pub enum Error {

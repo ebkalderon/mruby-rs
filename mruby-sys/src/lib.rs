@@ -7,62 +7,98 @@ use std::os::raw::c_void;
 #[cfg(not(feature = "use-f32"))]
 #[cfg(not(feature = "debug"))]
 #[cfg(not(feature = "disable-stdio"))]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/double_nodebug_stdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/double_nodebug_stdio.rs"
+));
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(not(feature = "debug"))]
 #[cfg(feature = "disable-stdio")]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/double_nodebug_nostdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/double_nodebug_nostdio.rs"
+));
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(feature = "debug")]
 #[cfg(not(feature = "disable-stdio"))]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/double_debug_stdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/double_debug_stdio.rs"
+));
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(feature = "debug")]
 #[cfg(feature = "disable-stdio")]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/double_debug_nostdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/double_debug_nostdio.rs"
+));
 
 #[cfg(feature = "use-f32")]
 #[cfg(not(feature = "debug"))]
 #[cfg(not(feature = "disable-stdio"))]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/float_nodebug_stdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/float_nodebug_stdio.rs"
+));
 
 #[cfg(feature = "use-f32")]
 #[cfg(not(feature = "debug"))]
 #[cfg(feature = "disable-stdio")]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/float_nodebug_nostdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/float_nodebug_nostdio.rs"
+));
 
 #[cfg(feature = "use-f32")]
 #[cfg(feature = "debug")]
 #[cfg(not(feature = "disable-stdio"))]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/float_debug_stdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/float_debug_stdio.rs"
+));
 
 #[cfg(feature = "use-f32")]
 #[cfg(feature = "debug")]
 #[cfg(feature = "disable-stdio")]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/float_debug_nostdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/float_debug_nostdio.rs"
+));
 
 #[cfg(feature = "disable-floats")]
 #[cfg(not(feature = "debug"))]
 #[cfg(not(feature = "disable-stdio"))]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/nofloat_nodebug_stdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/nofloat_nodebug_stdio.rs"
+));
 
 #[cfg(feature = "disable-floats")]
 #[cfg(not(feature = "debug"))]
 #[cfg(feature = "disable-stdio")]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/nofloat_nodebug_nostdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/nofloat_nodebug_nostdio.rs"
+));
 
 #[cfg(feature = "disable-floats")]
 #[cfg(feature = "debug")]
 #[cfg(not(feature = "disable-stdio"))]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/nofloat_debug_stdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/nofloat_debug_stdio.rs"
+));
 
 #[cfg(feature = "disable-floats")]
 #[cfg(feature = "debug")]
 #[cfg(feature = "disable-stdio")]
-include!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/nofloat_debug_nostdio.rs"));
+include!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/src/nofloat_debug_nostdio.rs"
+));
 
 extern "C" {
     #[inline]

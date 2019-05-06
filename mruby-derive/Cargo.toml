@@ -1,0 +1,11 @@
+[package]
+name = "mruby-derive"
+version = "0.1.0"
+authors = ["Eyal Kalderon <ebkalderon@gmail.com>"]
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote = "0.6.12"
+syn = "0.15.33"

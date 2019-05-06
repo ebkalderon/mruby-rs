@@ -22,7 +22,8 @@ fn main() {
     build.warnings(false).opt_level(3);
 
     if cfg!(feature = "debug") {
-        build.define("MRB_ENABLE_DEBUG", None);
+        build.define("MRB_DEBUG", None);
+        build.define("MRB_ENABLE_DEBUG_HOOK", None);
     }
 
     if cfg!(feature = "disable-stdio") {
@@ -33,11 +34,15 @@ fn main() {
         build.define("MRB_WITHOUT_FLOAT", None);
     }
 
+    if cfg!(feature = "disable-generational-gc") {
+        build.define("MRB_GC_TURN_OFF_GENERATIONAL", None);
+    }
+
     if cfg!(feature = "use-f32") {
         build.define("MRB_USE_FLOAT", None);
 
         if cfg!(feature = "disable-floats") {
-            panic!("Cannot use `disable-floats` and `use-f32` features together");
+            panic!("Cannot enable `disable-floats` and `use-f32` features together");
         }
     }
 
@@ -47,7 +52,7 @@ fn main() {
 
     let include_dir = Path::new(&out_dir).join(MRUBY_INCLUDE);
     build.include(include_dir);
-    
+
     let src_dir = Path::new(&env::var("OUT_DIR").unwrap()).join(MRUBY_SRC);
     let sources = WalkDir::new(src_dir)
         .into_iter()

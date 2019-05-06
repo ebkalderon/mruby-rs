@@ -116,52 +116,48 @@ impl<T> ::std::clone::Clone for __IncompleteArrayField<T> {
     }
 }
 impl<T> ::std::marker::Copy for __IncompleteArrayField<T> {}
-pub const MRB_INT_BIT: ::std::os::raw::c_uint = 64;
-pub const MRB_PRIo: &'static [u8; 3usize] = b"lo\0";
-pub const MRB_PRId: &'static [u8; 3usize] = b"ld\0";
-pub const MRB_PRIx: &'static [u8; 3usize] = b"lx\0";
-pub const MRB_FLAG_IS_FROZEN: ::std::os::raw::c_uint = 262144;
-pub const MRB_FIXNUM_SHIFT: ::std::os::raw::c_uint = 0;
-pub const MRB_EACH_OBJ_OK: ::std::os::raw::c_uint = 0;
-pub const MRB_EACH_OBJ_BREAK: ::std::os::raw::c_uint = 1;
-pub const MRB_GC_ARENA_SIZE: ::std::os::raw::c_uint = 100;
-pub const MRUBY_RUBY_VERSION: &'static [u8; 4usize] = b"1.9\0";
+pub const MRB_INT_BIT: u32 = 64;
+pub const MRB_PRIo: &'static [u8; 4usize] = b"llo\0";
+pub const MRB_PRId: &'static [u8; 4usize] = b"lld\0";
+pub const MRB_PRIx: &'static [u8; 4usize] = b"llx\0";
+pub const MRB_FL_OBJ_IS_FROZEN: u32 = 1048576;
+pub const MRB_FIXNUM_SHIFT: u32 = 0;
+pub const MRB_EACH_OBJ_OK: u32 = 0;
+pub const MRB_EACH_OBJ_BREAK: u32 = 1;
+pub const MRB_GC_ARENA_SIZE: u32 = 100;
+pub const MRUBY_RUBY_VERSION: &'static [u8; 4usize] = b"2.0\0";
 pub const MRUBY_RUBY_ENGINE: &'static [u8; 6usize] = b"mruby\0";
-pub const MRUBY_RELEASE_MAJOR: ::std::os::raw::c_uint = 1;
-pub const MRUBY_RELEASE_MINOR: ::std::os::raw::c_uint = 4;
-pub const MRUBY_RELEASE_TEENY: ::std::os::raw::c_uint = 1;
-pub const MRUBY_RELEASE_NO: ::std::os::raw::c_uint = 10401;
-pub const MRUBY_RELEASE_YEAR: ::std::os::raw::c_uint = 2018;
-pub const MRUBY_RELEASE_MONTH: ::std::os::raw::c_uint = 4;
-pub const MRUBY_RELEASE_DAY: ::std::os::raw::c_uint = 27;
-pub const MRUBY_BIRTH_YEAR: ::std::os::raw::c_uint = 2010;
+pub const MRUBY_RELEASE_MAJOR: u32 = 2;
+pub const MRUBY_RELEASE_MINOR: u32 = 0;
+pub const MRUBY_RELEASE_TEENY: u32 = 0;
+pub const MRUBY_RELEASE_NO: u32 = 20000;
+pub const MRUBY_RELEASE_YEAR: u32 = 2018;
+pub const MRUBY_RELEASE_MONTH: u32 = 4;
+pub const MRUBY_RELEASE_DAY: u32 = 27;
+pub const MRUBY_BIRTH_YEAR: u32 = 2010;
 pub const MRUBY_AUTHOR: &'static [u8; 17usize] = b"mruby developers\0";
-pub const MRB_FIXED_STATE_ATEXIT_STACK_SIZE: ::std::os::raw::c_uint = 5;
-pub const MRB_METHOD_CACHE_SIZE: ::std::os::raw::c_uint = 128;
-pub const MRB_STATE_NO_REGEXP: ::std::os::raw::c_uint = 1;
-pub const MRB_STATE_REGEXP: ::std::os::raw::c_uint = 2;
-pub const MRB_ARY_EMBED_MASK: ::std::os::raw::c_uint = 7;
-pub const MRB_ARY_SHARED: ::std::os::raw::c_uint = 256;
-pub const MRB_FLAG_IS_PREPENDED: ::std::os::raw::c_uint = 524288;
-pub const MRB_FLAG_IS_ORIGIN: ::std::os::raw::c_uint = 1048576;
-pub const MRB_FLAG_IS_INHERITED: ::std::os::raw::c_uint = 2097152;
-pub const MRB_INSTANCE_TT_MASK: ::std::os::raw::c_uint = 255;
-pub const MRB_PARSER_TOKBUF_MAX: ::std::os::raw::c_uint = 65536;
-pub const MRB_PARSER_TOKBUF_SIZE: ::std::os::raw::c_uint = 256;
-pub const MRB_HASH_DEFAULT: ::std::os::raw::c_uint = 1;
-pub const MRB_HASH_PROC_DEFAULT: ::std::os::raw::c_uint = 2;
-pub const MRB_STR_SHARED: ::std::os::raw::c_uint = 1;
-pub const MRB_STR_FSHARED: ::std::os::raw::c_uint = 2;
-pub const MRB_STR_NOFREE: ::std::os::raw::c_uint = 4;
-pub const MRB_STR_POOL: ::std::os::raw::c_uint = 8;
-pub const MRB_STR_NO_UTF: ::std::os::raw::c_uint = 16;
-pub const MRB_STR_EMBED: ::std::os::raw::c_uint = 32;
-pub const MRB_STR_EMBED_LEN_MASK: ::std::os::raw::c_uint = 1984;
-pub const MRB_STR_EMBED_LEN_SHIFT: ::std::os::raw::c_uint = 6;
-pub type __uint8_t = ::std::os::raw::c_uchar;
-pub type __uint16_t = ::std::os::raw::c_ushort;
-pub type __uint32_t = ::std::os::raw::c_uint;
-pub type __int64_t = ::std::os::raw::c_long;
+pub const MRB_FIXED_STATE_ATEXIT_STACK_SIZE: u32 = 5;
+pub const MRB_METHOD_CACHE_SIZE: u32 = 128;
+pub const MRB_STATE_NO_REGEXP: u32 = 1;
+pub const MRB_STATE_REGEXP: u32 = 2;
+pub const MRB_ARY_EMBED_MASK: u32 = 7;
+pub const MRB_ARY_SHARED: u32 = 256;
+pub const MRB_FL_CLASS_IS_PREPENDED: u32 = 524288;
+pub const MRB_FL_CLASS_IS_ORIGIN: u32 = 262144;
+pub const MRB_FL_CLASS_IS_INHERITED: u32 = 131072;
+pub const MRB_INSTANCE_TT_MASK: u32 = 255;
+pub const MRB_PARSER_TOKBUF_MAX: u32 = 65536;
+pub const MRB_PARSER_TOKBUF_SIZE: u32 = 256;
+pub const MRB_HASH_DEFAULT: u32 = 1;
+pub const MRB_HASH_PROC_DEFAULT: u32 = 2;
+pub const MRB_STR_SHARED: u32 = 1;
+pub const MRB_STR_FSHARED: u32 = 2;
+pub const MRB_STR_NOFREE: u32 = 4;
+pub const MRB_STR_POOL: u32 = 8;
+pub const MRB_STR_NO_UTF: u32 = 16;
+pub const MRB_STR_EMBED: u32 = 32;
+pub const MRB_STR_EMBED_LEN_MASK: u32 = 1984;
+pub const MRB_STR_EMBED_LEN_SHIFT: u32 = 6;
 /// MRuby Value definition functions and macros.
 pub type mrb_sym = u32;
 pub type mrb_bool = u8;
@@ -199,7 +195,7 @@ pub const mrb_vtype_MRB_TT_FIBER: mrb_vtype = 22;
 pub const mrb_vtype_MRB_TT_ISTRUCT: mrb_vtype = 23;
 pub const mrb_vtype_MRB_TT_BREAK: mrb_vtype = 24;
 pub const mrb_vtype_MRB_TT_MAXDEFINE: mrb_vtype = 25;
-pub type mrb_vtype = ::std::os::raw::c_uint;
+pub type mrb_vtype = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct RBasic {
@@ -638,7 +634,7 @@ extern "C" {
 pub const mrb_gc_state_MRB_GC_STATE_ROOT: mrb_gc_state = 0;
 pub const mrb_gc_state_MRB_GC_STATE_MARK: mrb_gc_state = 1;
 pub const mrb_gc_state_MRB_GC_STATE_SWEEP: mrb_gc_state = 2;
-pub type mrb_gc_state = ::std::os::raw::c_uint;
+pub type mrb_gc_state = u32;
 #[repr(C)]
 #[derive(Debug)]
 pub struct mrb_heap_page {
@@ -974,7 +970,7 @@ extern "C" {
     pub fn mrb_object_dead_p(mrb: *mut mrb_state, object: *mut RBasic) -> mrb_bool;
 }
 /// MRuby C API entry point
-pub type mrb_code = u32;
+pub type mrb_code = u8;
 /// Required arguments signature type.
 pub type mrb_aspec = u32;
 #[repr(C)]
@@ -1003,9 +999,8 @@ pub struct mrb_callinfo {
     pub mid: mrb_sym,
     pub proc_: *mut RProc,
     pub stackent: *mut mrb_value,
-    pub nregs: ::std::os::raw::c_int,
-    pub ridx: ::std::os::raw::c_int,
-    pub epos: ::std::os::raw::c_int,
+    pub ridx: u16,
+    pub epos: u16,
     pub env: *mut REnv,
     pub pc: *mut mrb_code,
     pub err: *mut mrb_code,
@@ -1017,7 +1012,7 @@ pub struct mrb_callinfo {
 fn bindgen_test_layout_mrb_callinfo() {
     assert_eq!(
         ::std::mem::size_of::<mrb_callinfo>(),
-        80usize,
+        72usize,
         concat!("Size of: ", stringify!(mrb_callinfo))
     );
     assert_eq!(
@@ -1056,18 +1051,8 @@ fn bindgen_test_layout_mrb_callinfo() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).nregs as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(mrb_callinfo),
-            "::",
-            stringify!(nregs)
-        )
-    );
-    assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).ridx as *const _ as usize },
-        28usize,
+        24usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1077,7 +1062,7 @@ fn bindgen_test_layout_mrb_callinfo() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).epos as *const _ as usize },
-        32usize,
+        26usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1087,7 +1072,7 @@ fn bindgen_test_layout_mrb_callinfo() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).env as *const _ as usize },
-        40usize,
+        32usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1097,7 +1082,7 @@ fn bindgen_test_layout_mrb_callinfo() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).pc as *const _ as usize },
-        48usize,
+        40usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1107,7 +1092,7 @@ fn bindgen_test_layout_mrb_callinfo() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).err as *const _ as usize },
-        56usize,
+        48usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1117,7 +1102,7 @@ fn bindgen_test_layout_mrb_callinfo() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).argc as *const _ as usize },
-        64usize,
+        56usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1127,7 +1112,7 @@ fn bindgen_test_layout_mrb_callinfo() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).acc as *const _ as usize },
-        68usize,
+        60usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1137,7 +1122,7 @@ fn bindgen_test_layout_mrb_callinfo() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_callinfo>())).target_class as *const _ as usize },
-        72usize,
+        64usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_callinfo),
@@ -1152,7 +1137,7 @@ pub const mrb_fiber_state_MRB_FIBER_RESUMED: mrb_fiber_state = 2;
 pub const mrb_fiber_state_MRB_FIBER_SUSPENDED: mrb_fiber_state = 3;
 pub const mrb_fiber_state_MRB_FIBER_TRANSFERRED: mrb_fiber_state = 4;
 pub const mrb_fiber_state_MRB_FIBER_TERMINATED: mrb_fiber_state = 5;
-pub type mrb_fiber_state = ::std::os::raw::c_uint;
+pub type mrb_fiber_state = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct mrb_context {
@@ -1163,11 +1148,11 @@ pub struct mrb_context {
     pub ci: *mut mrb_callinfo,
     pub cibase: *mut mrb_callinfo,
     pub ciend: *mut mrb_callinfo,
-    pub rescue: *mut *mut mrb_code,
-    pub rsize: ::std::os::raw::c_int,
+    pub rescue: *mut u16,
+    pub rsize: u16,
     pub ensure: *mut *mut RProc,
-    pub esize: ::std::os::raw::c_int,
-    pub eidx: ::std::os::raw::c_int,
+    pub esize: u16,
+    pub eidx: u16,
     pub status: mrb_fiber_state,
     pub vmexec: mrb_bool,
     pub fib: *mut RFiber,
@@ -1296,7 +1281,7 @@ fn bindgen_test_layout_mrb_context() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_context>())).eidx as *const _ as usize },
-        84usize,
+        82usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_context),
@@ -1306,7 +1291,7 @@ fn bindgen_test_layout_mrb_context() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_context>())).status as *const _ as usize },
-        88usize,
+        84usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_context),
@@ -1316,7 +1301,7 @@ fn bindgen_test_layout_mrb_context() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_context>())).vmexec as *const _ as usize },
-        92usize,
+        88usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_context),
@@ -1468,7 +1453,8 @@ pub struct mrb_state {
     pub stack_err: *mut RObject,
     pub ud: *mut ::std::os::raw::c_void,
     pub atexit_stack: *mut mrb_atexit_func,
-    pub atexit_stack_len: mrb_int,
+    pub atexit_stack_len: u16,
+    pub ecall_nest: u16,
 }
 #[test]
 fn bindgen_test_layout_mrb_state() {
@@ -1852,9 +1838,18 @@ fn bindgen_test_layout_mrb_state() {
             stringify!(atexit_stack_len)
         )
     );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<mrb_state>())).ecall_nest as *const _ as usize },
+        394usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(mrb_state),
+            "::",
+            stringify!(ecall_nest)
+        )
+    );
 }
 extern "C" {
-
     /// Defines a new class.
     ///
     /// If you're creating a gem it may look something like this:
@@ -1881,7 +1876,6 @@ extern "C" {
     ) -> *mut RClass;
 }
 extern "C" {
-
     /// Defines a new module.
     ///
     /// @param [mrb_state *] mrb_state* The current mruby state.
@@ -1896,7 +1890,6 @@ extern "C" {
     pub fn mrb_singleton_class(arg1: *mut mrb_state, arg2: mrb_value) -> mrb_value;
 }
 extern "C" {
-
     /// Include a module in another class or module.
     /// Equivalent to:
     ///
@@ -1909,7 +1902,6 @@ extern "C" {
     pub fn mrb_include_module(arg1: *mut mrb_state, arg2: *mut RClass, arg3: *mut RClass);
 }
 extern "C" {
-
     /// Prepends a module in another class or module.
     ///
     /// Equivalent to:
@@ -1922,7 +1914,6 @@ extern "C" {
     pub fn mrb_prepend_module(arg1: *mut mrb_state, arg2: *mut RClass, arg3: *mut RClass);
 }
 extern "C" {
-
     /// Defines a global function in ruby.
     ///
     /// If you're creating a gem it may look something like this
@@ -1955,7 +1946,6 @@ extern "C" {
     );
 }
 extern "C" {
-
     /// Defines a class method.
     ///
     /// Example:
@@ -1997,8 +1987,7 @@ extern "C" {
     );
 }
 extern "C" {
-
-    /// Defines a module fuction.
+    /// Defines a module function.
     ///
     /// Example:
     ///
@@ -2030,7 +2019,6 @@ extern "C" {
     );
 }
 extern "C" {
-
     /// Defines a constant.
     ///
     /// Example:
@@ -2063,7 +2051,6 @@ extern "C" {
     );
 }
 extern "C" {
-
     /// Undefines a method.
     ///
     /// Example:
@@ -2109,7 +2096,7 @@ extern "C" {
     /// }
     /// @param [mrb_state*] mrb_state* The mruby state reference.
     /// @param [struct RClass*] RClass* A class the method will be undefined from.
-    /// @param [const char*] constchar* The name of the method to be undefined.
+    /// @param [const char] const char* The name of the method to be undefined.
     pub fn mrb_undef_method(
         arg1: *mut mrb_state,
         arg2: *mut RClass,
@@ -2117,7 +2104,9 @@ extern "C" {
     );
 }
 extern "C" {
-
+    pub fn mrb_undef_method_id(arg1: *mut mrb_state, arg2: *mut RClass, arg3: mrb_sym);
+}
+extern "C" {
     /// Undefine a class method.
     /// Example:
     ///
@@ -2160,8 +2149,7 @@ extern "C" {
     );
 }
 extern "C" {
-
-    /// Initialize a new object instace of c class.
+    /// Initialize a new object instance of c class.
     ///
     /// Example:
     ///
@@ -2198,7 +2186,6 @@ extern "C" {
     pub fn mrb_instance_new(mrb: *mut mrb_state, cv: mrb_value) -> mrb_value;
 }
 extern "C" {
-
     /// Creates a new instance of Class, Class.
     ///
     /// Example:
@@ -2219,7 +2206,6 @@ extern "C" {
     pub fn mrb_class_new(mrb: *mut mrb_state, super_: *mut RClass) -> *mut RClass;
 }
 extern "C" {
-
     /// Creates a new module, Module.
     ///
     /// Example:
@@ -2235,7 +2221,6 @@ extern "C" {
     pub fn mrb_module_new(mrb: *mut mrb_state) -> *mut RClass;
 }
 extern "C" {
-
     /// Returns an mrb_bool. True if class was defined, and false if the class was not defined.
     ///
     /// Example:
@@ -2263,7 +2248,6 @@ extern "C" {
     pub fn mrb_class_defined(mrb: *mut mrb_state, name: *const ::std::os::raw::c_char) -> mrb_bool;
 }
 extern "C" {
-
     /// Gets a class.
     /// @param [mrb_state*] mrb The current mruby state.
     /// @param [const char *] name The name of the class.
@@ -2271,7 +2255,6 @@ extern "C" {
     pub fn mrb_class_get(mrb: *mut mrb_state, name: *const ::std::os::raw::c_char) -> *mut RClass;
 }
 extern "C" {
-
     /// Gets a exception class.
     /// @param [mrb_state*] mrb The current mruby state.
     /// @param [const char *] name The name of the class.
@@ -2279,7 +2262,6 @@ extern "C" {
     pub fn mrb_exc_get(mrb: *mut mrb_state, name: *const ::std::os::raw::c_char) -> *mut RClass;
 }
 extern "C" {
-
     /// Returns an mrb_bool. True if inner class was defined, and false if the inner class was not defined.
     ///
     /// Example:
@@ -2314,7 +2296,6 @@ extern "C" {
     ) -> mrb_bool;
 }
 extern "C" {
-
     /// Gets a child class.
     /// @param [mrb_state*] mrb The current mruby state.
     /// @param [struct RClass *] outer The name of the parent class.
@@ -2327,7 +2308,6 @@ extern "C" {
     ) -> *mut RClass;
 }
 extern "C" {
-
     /// Gets a module.
     /// @param [mrb_state*] mrb The current mruby state.
     /// @param [const char *] name The name of the module.
@@ -2335,7 +2315,6 @@ extern "C" {
     pub fn mrb_module_get(mrb: *mut mrb_state, name: *const ::std::os::raw::c_char) -> *mut RClass;
 }
 extern "C" {
-
     /// Gets a module defined under another module.
     /// @param [mrb_state*] mrb The current mruby state.
     /// @param [struct RClass *] outer The name of the outer module.
@@ -2351,7 +2330,6 @@ extern "C" {
     pub fn mrb_notimplement_m(arg1: *mut mrb_state, arg2: mrb_value) -> mrb_value;
 }
 extern "C" {
-
     /// Duplicate an object.
     ///
     /// Equivalent to:
@@ -2362,14 +2340,6 @@ extern "C" {
     pub fn mrb_obj_dup(mrb: *mut mrb_state, obj: mrb_value) -> mrb_value;
 }
 extern "C" {
-    pub fn mrb_check_to_integer(
-        mrb: *mut mrb_state,
-        val: mrb_value,
-        method: *const ::std::os::raw::c_char,
-    ) -> mrb_value;
-}
-extern "C" {
-
     /// Returns true if obj responds to the given method. If the method was defined for that
     /// class it returns true, it returns false otherwise.
     ///
@@ -2411,7 +2381,6 @@ extern "C" {
     pub fn mrb_obj_respond_to(mrb: *mut mrb_state, c: *mut RClass, mid: mrb_sym) -> mrb_bool;
 }
 extern "C" {
-
     /// Defines a new class under a given module
     ///
     /// @param [mrb_state*] mrb The current mruby state.
@@ -2460,12 +2429,7 @@ extern "C" {
 /// @see mrb_get_args
 pub type mrb_args_format = *const ::std::os::raw::c_char;
 extern "C" {
-
     /// Retrieve arguments from mrb_state.
-    ///
-    /// When applicable, implicit conversions (such as `to_str`, `to_ary`, `to_hash`) are
-    /// applied to received arguments.
-    /// Used inside a function of mrb_func_t type.
     ///
     /// @param mrb The current MRuby state.
     /// @param format [mrb_args_format] is a list of format specifiers
@@ -2475,7 +2439,6 @@ extern "C" {
     pub fn mrb_get_args(mrb: *mut mrb_state, format: mrb_args_format, ...) -> mrb_int;
 }
 extern "C" {
-
     /// Retrieve number of arguments from mrb_state.
     ///
     /// Correctly handles *splat arguments.
@@ -2485,7 +2448,6 @@ extern "C" {
     pub fn mrb_get_argv(mrb: *mut mrb_state) -> *mut mrb_value;
 }
 extern "C" {
-
     /// Call existing ruby functions.
     ///
     /// #include <stdio.h>
@@ -2520,7 +2482,6 @@ extern "C" {
     ) -> mrb_value;
 }
 extern "C" {
-
     /// Call existing ruby functions. This is basically the type safe version of mrb_funcall.
     ///
     /// #include <stdio.h>
@@ -2557,7 +2518,6 @@ extern "C" {
     ) -> mrb_value;
 }
 extern "C" {
-
     /// Call existing ruby functions with a block.
     pub fn mrb_funcall_with_block(
         arg1: *mut mrb_state,
@@ -2569,7 +2529,6 @@ extern "C" {
     ) -> mrb_value;
 }
 extern "C" {
-
     /// Create a symbol
     ///
     /// # Ruby style:
@@ -2669,7 +2628,6 @@ extern "C" {
     ) -> mrb_value;
 }
 extern "C" {
-
     /// Turns a C string into a Ruby string value.
     pub fn mrb_str_new_cstr(arg1: *mut mrb_state, arg2: *const ::std::os::raw::c_char)
         -> mrb_value;
@@ -2682,7 +2640,6 @@ extern "C" {
     ) -> mrb_value;
 }
 extern "C" {
-
     /// Creates new mrb_state.
     ///
     /// @return
@@ -2690,7 +2647,6 @@ extern "C" {
     pub fn mrb_open() -> *mut mrb_state;
 }
 extern "C" {
-
     /// Create new mrb_state with custom allocators.
     ///
     /// @param f
@@ -2703,7 +2659,6 @@ extern "C" {
     pub fn mrb_open_allocf(f: mrb_allocf, ud: *mut ::std::os::raw::c_void) -> *mut mrb_state;
 }
 extern "C" {
-
     /// Create new mrb_state with just the MRuby core
     ///
     /// @param f
@@ -2717,7 +2672,6 @@ extern "C" {
     pub fn mrb_open_core(f: mrb_allocf, ud: *mut ::std::os::raw::c_void) -> *mut mrb_state;
 }
 extern "C" {
-
     /// Closes and frees a mrb_state.
     ///
     /// @param mrb
@@ -2725,7 +2679,6 @@ extern "C" {
     pub fn mrb_close(mrb: *mut mrb_state);
 }
 extern "C" {
-
     /// The default allocation function.
     ///
     /// @see mrb_allocf
@@ -2931,14 +2884,17 @@ extern "C" {
     pub fn mrb_to_int(mrb: *mut mrb_state, val: mrb_value) -> mrb_value;
 }
 extern "C" {
+    pub fn mrb_to_str(mrb: *mut mrb_state, val: mrb_value) -> mrb_value;
+}
+extern "C" {
     pub fn mrb_check_type(mrb: *mut mrb_state, x: mrb_value, t: mrb_vtype);
 }
 extern "C" {
     pub fn mrb_define_alias(
         mrb: *mut mrb_state,
-        klass: *mut RClass,
-        name1: *const ::std::os::raw::c_char,
-        name2: *const ::std::os::raw::c_char,
+        c: *mut RClass,
+        a: *const ::std::os::raw::c_char,
+        b: *const ::std::os::raw::c_char,
     );
 }
 extern "C" {
@@ -2983,6 +2939,9 @@ extern "C" {
 }
 extern "C" {
     pub fn mrb_fiber_alive_p(mrb: *mut mrb_state, fib: mrb_value) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_stack_extend(arg1: *mut mrb_state, arg2: mrb_int);
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -3413,6 +3372,9 @@ extern "C" {
     pub fn mrb_ary_replace(mrb: *mut mrb_state, self_: mrb_value, other: mrb_value);
 }
 extern "C" {
+    pub fn mrb_ensure_array_type(mrb: *mut mrb_state, self_: mrb_value) -> mrb_value;
+}
+extern "C" {
     pub fn mrb_check_array_type(mrb: *mut mrb_state, self_: mrb_value) -> mrb_value;
 }
 extern "C" {
@@ -3602,7 +3564,7 @@ extern "C" {
     );
 }
 extern "C" {
-    pub fn mrb_alias_method(mrb: *mut mrb_state, c: *mut RClass, a: mrb_sym, b: mrb_sym);
+    pub fn mrb_alias_method(arg1: *mut mrb_state, c: *mut RClass, a: mrb_sym, b: mrb_sym);
 }
 extern "C" {
     pub fn mrb_method_search_vm(
@@ -3806,12 +3768,24 @@ impl mrbc_context {
         }
     }
     #[inline]
+    pub fn on_eval(&self) -> mrb_bool {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(5usize, 1u8) as u8) }
+    }
+    #[inline]
+    pub fn set_on_eval(&mut self, val: mrb_bool) {
+        unsafe {
+            let val: u8 = ::std::mem::transmute(val);
+            self._bitfield_1.set(5usize, 1u8, val as u64)
+        }
+    }
+    #[inline]
     pub fn new_bitfield_1(
         capture_errors: mrb_bool,
         dump_result: mrb_bool,
         no_exec: mrb_bool,
         keep_lv: mrb_bool,
         no_optimize: mrb_bool,
+        on_eval: mrb_bool,
     ) -> __BindgenBitfieldUnit<[u8; 1usize], u8> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 1usize], u8> =
             Default::default();
@@ -3834,6 +3808,10 @@ impl mrbc_context {
         __bindgen_bitfield_unit.set(4usize, 1u8, {
             let no_optimize: u8 = unsafe { ::std::mem::transmute(no_optimize) };
             no_optimize as u64
+        });
+        __bindgen_bitfield_unit.set(5usize, 1u8, {
+            let on_eval: u8 = unsafe { ::std::mem::transmute(on_eval) };
+            on_eval as u64
         });
         __bindgen_bitfield_unit
     }
@@ -3934,7 +3912,7 @@ pub const mrb_lex_state_enum_EXPR_DOT: mrb_lex_state_enum = 8;
 pub const mrb_lex_state_enum_EXPR_CLASS: mrb_lex_state_enum = 9;
 pub const mrb_lex_state_enum_EXPR_VALUE: mrb_lex_state_enum = 10;
 pub const mrb_lex_state_enum_EXPR_MAX_STATE: mrb_lex_state_enum = 11;
-pub type mrb_lex_state_enum = ::std::os::raw::c_uint;
+pub type mrb_lex_state_enum = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct mrb_parser_message {
@@ -3996,7 +3974,7 @@ pub const mrb_string_type_str_ssymbols: mrb_string_type = 49;
 pub const mrb_string_type_str_dsymbols: mrb_string_type = 51;
 pub const mrb_string_type_str_heredoc: mrb_string_type = 65;
 pub const mrb_string_type_str_xquote: mrb_string_type = 131;
-pub type mrb_string_type = ::std::os::raw::c_uint;
+pub type mrb_string_type = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct mrb_parser_heredoc_info {
@@ -4133,24 +4111,23 @@ pub struct mrb_parser_state {
     pub heredocs_from_nextline: *mut mrb_ast_node,
     pub parsing_heredoc: *mut mrb_ast_node,
     pub lex_strterm_before_heredoc: *mut mrb_ast_node,
-    pub _bitfield_2: __BindgenBitfieldUnit<[u8; 1usize], u8>,
     pub ylval: *mut ::std::os::raw::c_void,
     pub nerr: usize,
     pub nwarn: usize,
     pub tree: *mut mrb_ast_node,
-    pub _bitfield_3: __BindgenBitfieldUnit<[u8; 1usize], u8>,
+    pub _bitfield_2: __BindgenBitfieldUnit<[u8; 1usize], u8>,
     pub error_buffer: [mrb_parser_message; 10usize],
     pub warn_buffer: [mrb_parser_message; 10usize],
     pub filename_table: *mut mrb_sym,
-    pub filename_table_length: usize,
-    pub current_filename_index: ::std::os::raw::c_int,
+    pub filename_table_length: u16,
+    pub current_filename_index: u16,
     pub jmp: *mut mrb_jmpbuf,
 }
 #[test]
 fn bindgen_test_layout_mrb_parser_state() {
     assert_eq!(
         ::std::mem::size_of::<mrb_parser_state>(),
-        832usize,
+        816usize,
         concat!("Size of: ", stringify!(mrb_parser_state))
     );
     assert_eq!(
@@ -4437,7 +4414,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).ylval as *const _ as usize },
-        440usize,
+        432usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4447,7 +4424,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).nerr as *const _ as usize },
-        448usize,
+        440usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4457,7 +4434,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).nwarn as *const _ as usize },
-        456usize,
+        448usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4467,7 +4444,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).tree as *const _ as usize },
-        464usize,
+        456usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4477,7 +4454,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).error_buffer as *const _ as usize },
-        480usize,
+        472usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4487,7 +4464,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).warn_buffer as *const _ as usize },
-        640usize,
+        632usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4497,7 +4474,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).filename_table as *const _ as usize },
-        800usize,
+        792usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4509,7 +4486,7 @@ fn bindgen_test_layout_mrb_parser_state() {
         unsafe {
             &(*(::std::ptr::null::<mrb_parser_state>())).filename_table_length as *const _ as usize
         },
-        808usize,
+        800usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4521,7 +4498,7 @@ fn bindgen_test_layout_mrb_parser_state() {
         unsafe {
             &(*(::std::ptr::null::<mrb_parser_state>())).current_filename_index as *const _ as usize
         },
-        816usize,
+        802usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4531,7 +4508,7 @@ fn bindgen_test_layout_mrb_parser_state() {
     );
     assert_eq!(
         unsafe { &(*(::std::ptr::null::<mrb_parser_state>())).jmp as *const _ as usize },
-        824usize,
+        808usize,
         concat!(
             "Offset of field: ",
             stringify!(mrb_parser_state),
@@ -4542,7 +4519,7 @@ fn bindgen_test_layout_mrb_parser_state() {
 }
 impl ::std::fmt::Debug for mrb_parser_state {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write ! ( f , "mrb_parser_state {{ mrb: {:?}, pool: {:?}, cells: {:?}, s: {:?}, send: {:?}, cxt: {:?}, filename: {:?}, lineno: {:?}, column: {:?}, lstate: {:?}, lex_strterm: {:?}, cond_stack: {:?}, cmdarg_stack: {:?}, paren_nest: {:?}, lpar_beg: {:?}, in_def: {:?}, in_single: {:?}, cmd_start : {:?}, locals: {:?}, pb: {:?}, tokbuf: {:?}, buf: [{}], tidx: {:?}, tsiz: {:?}, all_heredocs: {:?}, heredocs_from_nextline: {:?}, parsing_heredoc: {:?}, lex_strterm_before_heredoc: {:?}, heredoc_end_now : {:?}, ylval: {:?}, nerr: {:?}, nwarn: {:?}, tree: {:?}, no_optimize : {:?}, capture_errors : {:?}, error_buffer: {:?}, warn_buffer: {:?}, filename_table: {:?}, filename_table_length: {:?}, current_filename_index: {:?}, jmp: {:?} }}" , self . mrb , self . pool , self . cells , self . s , self . send , self . cxt , self . filename , self . lineno , self . column , self . lstate , self . lex_strterm , self . cond_stack , self . cmdarg_stack , self . paren_nest , self . lpar_beg , self . in_def , self . in_single , self . cmd_start ( ) , self . locals , self . pb , self . tokbuf , self . buf . iter ( ) . enumerate ( ) . map ( | ( i , v ) | format ! ( "{}{:?}" , if i > 0 { ", " } else { "" } , v ) ) . collect :: < String > ( ) , self . tidx , self . tsiz , self . all_heredocs , self . heredocs_from_nextline , self . parsing_heredoc , self . lex_strterm_before_heredoc , self . heredoc_end_now ( ) , self . ylval , self . nerr , self . nwarn , self . tree , self . no_optimize ( ) , self . capture_errors ( ) , self . error_buffer , self . warn_buffer , self . filename_table , self . filename_table_length , self . current_filename_index , self . jmp )
+        write ! ( f , "mrb_parser_state {{ mrb: {:?}, pool: {:?}, cells: {:?}, s: {:?}, send: {:?}, cxt: {:?}, filename: {:?}, lineno: {:?}, column: {:?}, lstate: {:?}, lex_strterm: {:?}, cond_stack: {:?}, cmdarg_stack: {:?}, paren_nest: {:?}, lpar_beg: {:?}, in_def: {:?}, in_single: {:?}, cmd_start : {:?}, locals: {:?}, pb: {:?}, tokbuf: {:?}, buf: [{}], tidx: {:?}, tsiz: {:?}, all_heredocs: {:?}, heredocs_from_nextline: {:?}, parsing_heredoc: {:?}, lex_strterm_before_heredoc: {:?}, ylval: {:?}, nerr: {:?}, nwarn: {:?}, tree: {:?}, no_optimize : {:?}, on_eval : {:?}, capture_errors : {:?}, error_buffer: {:?}, warn_buffer: {:?}, filename_table: {:?}, filename_table_length: {:?}, current_filename_index: {:?}, jmp: {:?} }}" , self . mrb , self . pool , self . cells , self . s , self . send , self . cxt , self . filename , self . lineno , self . column , self . lstate , self . lex_strterm , self . cond_stack , self . cmdarg_stack , self . paren_nest , self . lpar_beg , self . in_def , self . in_single , self . cmd_start ( ) , self . locals , self . pb , self . tokbuf , self . buf . iter ( ) . enumerate ( ) . map ( | ( i , v ) | format ! ( "{}{:?}" , if i > 0 { ", " } else { "" } , v ) ) . collect :: < String > ( ) , self . tidx , self . tsiz , self . all_heredocs , self . heredocs_from_nextline , self . parsing_heredoc , self . lex_strterm_before_heredoc , self . ylval , self . nerr , self . nwarn , self . tree , self . no_optimize ( ) , self . on_eval ( ) , self . capture_errors ( ) , self . error_buffer , self . warn_buffer , self . filename_table , self . filename_table_length , self . current_filename_index , self . jmp )
     }
 }
 impl mrb_parser_state {
@@ -4568,51 +4545,42 @@ impl mrb_parser_state {
         __bindgen_bitfield_unit
     }
     #[inline]
-    pub fn heredoc_end_now(&self) -> mrb_bool {
+    pub fn no_optimize(&self) -> mrb_bool {
         unsafe { ::std::mem::transmute(self._bitfield_2.get(0usize, 1u8) as u8) }
     }
     #[inline]
-    pub fn set_heredoc_end_now(&mut self, val: mrb_bool) {
+    pub fn set_no_optimize(&mut self, val: mrb_bool) {
         unsafe {
             let val: u8 = ::std::mem::transmute(val);
             self._bitfield_2.set(0usize, 1u8, val as u64)
         }
     }
     #[inline]
-    pub fn new_bitfield_2(heredoc_end_now: mrb_bool) -> __BindgenBitfieldUnit<[u8; 1usize], u8> {
-        let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 1usize], u8> =
-            Default::default();
-        __bindgen_bitfield_unit.set(0usize, 1u8, {
-            let heredoc_end_now: u8 = unsafe { ::std::mem::transmute(heredoc_end_now) };
-            heredoc_end_now as u64
-        });
-        __bindgen_bitfield_unit
+    pub fn on_eval(&self) -> mrb_bool {
+        unsafe { ::std::mem::transmute(self._bitfield_2.get(1usize, 1u8) as u8) }
     }
     #[inline]
-    pub fn no_optimize(&self) -> mrb_bool {
-        unsafe { ::std::mem::transmute(self._bitfield_3.get(0usize, 1u8) as u8) }
-    }
-    #[inline]
-    pub fn set_no_optimize(&mut self, val: mrb_bool) {
+    pub fn set_on_eval(&mut self, val: mrb_bool) {
         unsafe {
             let val: u8 = ::std::mem::transmute(val);
-            self._bitfield_3.set(0usize, 1u8, val as u64)
+            self._bitfield_2.set(1usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn capture_errors(&self) -> mrb_bool {
-        unsafe { ::std::mem::transmute(self._bitfield_3.get(1usize, 1u8) as u8) }
+        unsafe { ::std::mem::transmute(self._bitfield_2.get(2usize, 1u8) as u8) }
     }
     #[inline]
     pub fn set_capture_errors(&mut self, val: mrb_bool) {
         unsafe {
             let val: u8 = ::std::mem::transmute(val);
-            self._bitfield_3.set(1usize, 1u8, val as u64)
+            self._bitfield_2.set(2usize, 1u8, val as u64)
         }
     }
     #[inline]
-    pub fn new_bitfield_3(
+    pub fn new_bitfield_2(
         no_optimize: mrb_bool,
+        on_eval: mrb_bool,
         capture_errors: mrb_bool,
     ) -> __BindgenBitfieldUnit<[u8; 1usize], u8> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 1usize], u8> =
@@ -4622,6 +4590,10 @@ impl mrb_parser_state {
             no_optimize as u64
         });
         __bindgen_bitfield_unit.set(1usize, 1u8, {
+            let on_eval: u8 = unsafe { ::std::mem::transmute(on_eval) };
+            on_eval as u64
+        });
+        __bindgen_bitfield_unit.set(2usize, 1u8, {
             let capture_errors: u8 = unsafe { ::std::mem::transmute(capture_errors) };
             capture_errors as u64
         });
@@ -4699,8 +4671,6 @@ extern "C" {
         cxt: *mut mrbc_context,
     ) -> mrb_value;
 }
-/// khash definitions used in mruby's hash table.
-pub type khint_t = u32;
 /// Hash class
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -4709,7 +4679,7 @@ pub struct RHash {
     pub c: *mut RClass,
     pub gcnext: *mut RBasic,
     pub iv: *mut iv_tbl,
-    pub ht: *mut kh_ht,
+    pub ht: *mut htable,
 }
 #[test]
 fn bindgen_test_layout_RHash() {
@@ -4810,6 +4780,12 @@ extern "C" {
     pub fn mrb_hash_new_capa(arg1: *mut mrb_state, arg2: mrb_int) -> mrb_value;
 }
 extern "C" {
+    pub fn mrb_ensure_hash_type(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_check_hash_type(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+extern "C" {
     pub fn mrb_hash_new(mrb: *mut mrb_state) -> mrb_value;
 }
 extern "C" {
@@ -4833,16 +4809,22 @@ extern "C" {
     pub fn mrb_hash_keys(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
 }
 extern "C" {
-    pub fn mrb_check_hash_type(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+    pub fn mrb_hash_key_p(mrb: *mut mrb_state, hash: mrb_value, key: mrb_value) -> mrb_bool;
 }
 extern "C" {
-    pub fn mrb_hash_empty_p(mrb: *mut mrb_state, self_: mrb_value) -> mrb_value;
+    pub fn mrb_hash_empty_p(mrb: *mut mrb_state, self_: mrb_value) -> mrb_bool;
 }
 extern "C" {
     pub fn mrb_hash_values(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
 }
 extern "C" {
     pub fn mrb_hash_clear(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_hash_dup(mrb: *mut mrb_state, hash: mrb_value) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_hash_merge(mrb: *mut mrb_state, hash1: mrb_value, hash2: mrb_value);
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4887,92 +4869,6 @@ impl ::std::fmt::Debug for mrb_hash_value {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         write!(f, "mrb_hash_value {{ v: {:?}, n: {:?} }}", self.v, self.n)
     }
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct kh_ht {
-    pub n_buckets: khint_t,
-    pub size: khint_t,
-    pub n_occupied: khint_t,
-    pub ed_flags: *mut u8,
-    pub keys: *mut mrb_value,
-    pub vals: *mut mrb_hash_value,
-}
-#[test]
-fn bindgen_test_layout_kh_ht() {
-    assert_eq!(
-        ::std::mem::size_of::<kh_ht>(),
-        40usize,
-        concat!("Size of: ", stringify!(kh_ht))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<kh_ht>(),
-        8usize,
-        concat!("Alignment of ", stringify!(kh_ht))
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kh_ht>())).n_buckets as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(kh_ht),
-            "::",
-            stringify!(n_buckets)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kh_ht>())).size as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(kh_ht),
-            "::",
-            stringify!(size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kh_ht>())).n_occupied as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(kh_ht),
-            "::",
-            stringify!(n_occupied)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kh_ht>())).ed_flags as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(kh_ht),
-            "::",
-            stringify!(ed_flags)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kh_ht>())).keys as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(kh_ht),
-            "::",
-            stringify!(keys)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<kh_ht>())).vals as *const _ as usize },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(kh_ht),
-            "::",
-            stringify!(vals)
-        )
-    );
-}
-extern "C" {
-    pub fn mrb_hash_tbl(mrb: *mut mrb_state, hash: mrb_value) -> *mut kh_ht;
 }
 extern "C" {
     pub fn mrb_gc_mark_hash(arg1: *mut mrb_state, arg2: *mut RHash);
@@ -5337,10 +5233,13 @@ extern "C" {
     ) -> mrb_value;
 }
 extern "C" {
-    pub fn mrb_string_type(mrb: *mut mrb_state, str: mrb_value) -> mrb_value;
+    pub fn mrb_ensure_string_type(mrb: *mut mrb_state, str: mrb_value) -> mrb_value;
 }
 extern "C" {
     pub fn mrb_check_string_type(mrb: *mut mrb_state, str: mrb_value) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_string_type(mrb: *mut mrb_state, str: mrb_value) -> mrb_value;
 }
 extern "C" {
     pub fn mrb_str_new_capa(mrb: *mut mrb_state, capa: usize) -> mrb_value;
@@ -5442,12 +5341,6 @@ extern "C" {
     pub fn mrb_vm_special_set(arg1: *mut mrb_state, arg2: mrb_sym, arg3: mrb_value);
 }
 extern "C" {
-    pub fn mrb_vm_iv_get(arg1: *mut mrb_state, arg2: mrb_sym) -> mrb_value;
-}
-extern "C" {
-    pub fn mrb_vm_iv_set(arg1: *mut mrb_state, arg2: mrb_sym, arg3: mrb_value);
-}
-extern "C" {
     pub fn mrb_vm_cv_get(arg1: *mut mrb_state, arg2: mrb_sym) -> mrb_value;
 }
 extern "C" {
@@ -5472,10 +5365,10 @@ extern "C" {
     pub fn mrb_const_remove(arg1: *mut mrb_state, arg2: mrb_value, arg3: mrb_sym);
 }
 extern "C" {
-    pub fn mrb_iv_p(mrb: *mut mrb_state, sym: mrb_sym) -> mrb_bool;
+    pub fn mrb_iv_name_sym_p(mrb: *mut mrb_state, sym: mrb_sym) -> mrb_bool;
 }
 extern "C" {
-    pub fn mrb_iv_check(mrb: *mut mrb_state, sym: mrb_sym);
+    pub fn mrb_iv_name_sym_check(mrb: *mut mrb_state, sym: mrb_sym);
 }
 extern "C" {
     pub fn mrb_obj_iv_get(mrb: *mut mrb_state, obj: *mut RObject, sym: mrb_sym) -> mrb_value;
@@ -5505,7 +5398,6 @@ extern "C" {
     pub fn mrb_const_defined_at(mrb: *mut mrb_state, mod_: mrb_value, id: mrb_sym) -> mrb_bool;
 }
 extern "C" {
-
     /// Get a global variable. Will return nil if the var does not exist
     ///
     /// Example:
@@ -5525,7 +5417,6 @@ extern "C" {
     pub fn mrb_gv_get(mrb: *mut mrb_state, sym: mrb_sym) -> mrb_value;
 }
 extern "C" {
-
     /// Set a global variable
     ///
     /// Example:
@@ -5545,7 +5436,6 @@ extern "C" {
     pub fn mrb_gv_set(mrb: *mut mrb_state, sym: mrb_sym, val: mrb_value);
 }
 extern "C" {
-
     /// Remove a global variable.
     ///
     /// Example:
@@ -5645,6 +5535,11 @@ pub struct symbol_name {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct kh_mt {
+    pub _address: u8,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct htable {
     pub _address: u8,
 }
 #[repr(C)]

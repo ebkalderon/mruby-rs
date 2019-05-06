@@ -4,12 +4,14 @@ version = "0.1.0"
 authors = ["Eyal Kalderon <ebkalderon@gmail.com>"]
 links = "libmruby"
 build = "build.rs"
+include = ["vendor/mruby-out.tar", "vendor/wrapper.*"]
 
 [features]
 default = ["utf8"]
 debug = []
 disable-floats = []
 disable-stdio = []
+disable-generational-gc = []
 use-f32 = []
 utf8 = []
 
@@ -17,5 +19,5 @@ utf8 = []
 
 [build-dependencies]
 cc = "1.0"
-tar = "0.4.15"
-walkdir = "2.1"
+tar = "0.4.24"
+walkdir = "2.2"

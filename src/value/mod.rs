@@ -4,7 +4,9 @@ use std::ffi::CString;
 
 use mruby_sys::{self, mrb_bool, mrb_float, mrb_int, mrb_state, mrb_value};
 
-mod to_value;
+use class::Class;
+
+pub mod to_value;
 
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Kind {
@@ -75,7 +77,8 @@ impl State {
         use mruby_sys::mrb_ary_new_from_values;
 
         let State(state) = *self;
-        let array: Vec<mrb_value> = val.iter()
+        let array: Vec<mrb_value> = val
+            .iter()
             .map(|v| v.to_value(self))
             .map(|Value(inner)| inner)
             .collect();
@@ -86,11 +89,13 @@ impl State {
         }
     }
 
+    #[inline]
     pub fn serialize_bool(&mut self, val: bool) -> Value {
         use mruby_sys::mrb_ext_bool_value;
         unsafe { Value(mrb_ext_bool_value(val as mrb_bool)) }
     }
 
+    #[inline]
     pub fn serialize_char(&mut self, val: char) -> Value {
         use std::str::from_utf8_unchecked;
 
@@ -99,11 +104,14 @@ impl State {
         thing.to_value(self)
     }
 
+    #[inline]
     pub fn serialize_integer(&mut self, val: mrb_int) -> Value {
         use mruby_sys::mrb_ext_fixnum_value;
         unsafe { Value(mrb_ext_fixnum_value(val)) }
     }
 
+    #[inline]
+    #[cfg(not(feature = "disable-floats"))]
     pub fn serialize_float(&mut self, val: mrb_float) -> Value {
         use mruby_sys::mrb_ext_float_value;
 
@@ -131,22 +139,32 @@ impl State {
         for (key, value) in map {
             let Value(k) = key.to_value(self);
             let Value(v) = value.to_value(self);
-            unsafe { mrb_hash_set(state, hash, k, v); }
+            unsafe {
+                mrb_hash_set(state, hash, k, v);
+            }
         }
 
         Value(hash)
     }
 
+    #[inline]
     pub fn serialize_nil(&mut self) -> Value {
         use mruby_sys::mrb_ext_nil_value;
         unsafe { Value(mrb_ext_nil_value()) }
     }
 
+    #[inline]
+    pub fn serialize_object<T: Class>(&mut self, _obj: T) -> Value {
+        unimplemented!()
+    }
+
+    #[inline]
     pub fn serialize_undef(&mut self) -> Value {
         use mruby_sys::mrb_ext_undef_value;
         unsafe { Value(mrb_ext_undef_value()) }
     }
 
+    #[inline]
     pub fn serialize_string<S: AsRef<str>>(&mut self, val: S) -> Value {
         use mruby_sys::mrb_str_new_cstr;
 

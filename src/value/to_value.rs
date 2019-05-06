@@ -27,12 +27,14 @@ impl ToValue for char {
     }
 }
 
+#[cfg(not(feature = "disable-floats"))]
 impl ToValue for f32 {
     fn to_value(&self, state: &mut State) -> Value {
         state.serialize_float(*self as mrb_float)
     }
 }
 
+#[cfg(not(feature = "disable-floats"))]
 impl ToValue for f64 {
     fn to_value(&self, state: &mut State) -> Value {
         state.serialize_float(*self as mrb_float)
