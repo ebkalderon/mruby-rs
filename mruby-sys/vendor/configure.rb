@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 #
 # Configures the compile-time feature sets available for mruby and generates all
 # possible permutations of these features.
@@ -36,8 +38,8 @@ stdio = {
     'nostdio' => '-DMRB_DISABLE_STDIO',
 }
 
-filenames = floats.keys.product(debug.keys.product(stdio.keys)).map {|x| x.flatten}
-options = floats.values.product(debug.values.product(stdio.values)).map {|x| x.flatten}
+filenames = floats.keys.product(debug.keys, stdio.keys)
+options = floats.values.product(debug.values, stdio.values)
 dict = Hash[filenames.zip(options)]
 
 bindgen_data = dict.map { |names, opts| [names.join('_'), opts.join(' ')] }
