@@ -75,6 +75,7 @@ rm -rf build/host/mrbgems/mruby-test
 # Copies some .h files from gems.
 
 cp -R mrbgems/mruby-io/include/mruby/* ../mruby-out/include/mruby
+cp -R mrbgems/mruby-time/include/mruby/* ../mruby-out/include/mruby
 
 # Copies all gems.
 

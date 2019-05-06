@@ -5375,6 +5375,19 @@ extern "C" {
 extern "C" {
     pub fn mrb_str_inspect(mrb: *mut mrb_state, str: mrb_value) -> mrb_value;
 }
+pub const mrb_timezone_MRB_TIMEZONE_NONE: mrb_timezone = 0;
+pub const mrb_timezone_MRB_TIMEZONE_UTC: mrb_timezone = 1;
+pub const mrb_timezone_MRB_TIMEZONE_LOCAL: mrb_timezone = 2;
+pub const mrb_timezone_MRB_TIMEZONE_LAST: mrb_timezone = 3;
+pub type mrb_timezone = u32;
+extern "C" {
+    pub fn mrb_time_at(
+        mrb: *mut mrb_state,
+        sec: f64,
+        usec: f64,
+        timezone: mrb_timezone,
+    ) -> mrb_value;
+}
 extern "C" {
     pub fn mrb_vm_special_get(arg1: *mut mrb_state, arg2: mrb_sym) -> mrb_value;
 }

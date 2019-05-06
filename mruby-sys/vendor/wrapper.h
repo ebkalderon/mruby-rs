@@ -5,5 +5,6 @@
 #include <mruby/compile.h>
 #include <mruby/hash.h>
 #include <mruby/string.h>
+#include <mruby/time.h>
 #include <mruby/value.h>
 #include <mruby/variable.h>
