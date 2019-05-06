@@ -27,6 +27,7 @@ fn main() {
 
     if cfg!(feature = "debug") {
         build.define("MRB_DEBUG", None);
+        build.define("MRB_ENABLE_ALL_SYMBOLS", None);
         build.define("MRB_ENABLE_DEBUG_HOOK", None);
     }
 

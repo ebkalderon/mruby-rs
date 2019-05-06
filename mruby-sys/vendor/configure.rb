@@ -29,7 +29,7 @@ floats = {
 }
 
 debug = {
-    'debug' => '-DMRB_DEBUG -DMRB_ENABLE_DEBUG_HOOK',
+    'debug' => '-DMRB_DEBUG -DMRB_ENABLE_ALL_SYMBOLS -DMRB_ENABLE_DEBUG_HOOK',
     'nodebug' => '',
 }
 
