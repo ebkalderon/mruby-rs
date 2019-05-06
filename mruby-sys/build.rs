@@ -19,7 +19,7 @@ fn main() {
     archive.unpack(&out_dir).unwrap();
 
     let mut build = cc::Build::new();
-    build.warnings(false).opt_level(3);
+    build.warnings(false);
 
     if cfg!(target_endian = "big") {
         build.define("MRB_ENDIAN_BIG", None);
