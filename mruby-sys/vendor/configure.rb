@@ -42,5 +42,5 @@ filenames = floats.keys.product(debug.keys, stdio.keys)
 options = floats.values.product(debug.values, stdio.values)
 dict = Hash[filenames.zip(options)]
 
-bindgen_data = dict.map { |names, opts| [names.join('_'), opts.join(' ')] }
-bindgen_data.each {|name, opts| puts "#{name},#{opts}"}
+bindgen_data = dict.map { |names, opts| [names.join('_'), opts.join(' ').strip] }
+bindgen_data.each { |name, opts| puts "#{name}, #{opts}" }
