@@ -33,9 +33,9 @@ impl Mruby {
 
         let mut state = value::State::new(self.state);
         let Value(val) = global.to_value(&mut state);
+        let owned = CString::new(name).expect("Unterminated string");
 
         unsafe {
-            let owned = CString::new(name).expect("Unterminated string");
             let sym = mrb_intern_cstr(self.state, owned.as_ptr());
             mrb_gv_set(self.state, sym, val);
         }

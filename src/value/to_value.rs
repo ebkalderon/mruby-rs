@@ -173,8 +173,8 @@ impl_value_tuple!(T0 T1 T2 T3 T4 T5 T6 T7 T8 T9 T10 T11 T12);
 
 impl<K, V> ToValue for BTreeMap<K, V>
 where
-    K: ToValue + Eq + Hash,
-    V: ToValue + Eq + Hash,
+    K: ToValue + Ord,
+    V: ToValue,
 {
     fn to_value(&self, state: &mut State) -> Value {
         state.serialize_hash(self.iter())
@@ -184,7 +184,7 @@ where
 impl<K, V> ToValue for HashMap<K, V>
 where
     K: ToValue + Eq + Hash,
-    V: ToValue + Eq + Hash,
+    V: ToValue,
 {
     fn to_value(&self, state: &mut State) -> Value {
         state.serialize_hash(self.iter())
