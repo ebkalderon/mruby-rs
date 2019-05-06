@@ -77,7 +77,6 @@ cp -R mrbgems/mruby-time/include/mruby/* ../mruby-out/include/mruby
 
 cp -R mrbgems/* ../mruby-out/src/mrbgems
 cp -R build/host/mrbgems/* ../mruby-out/src/mrbgems
-cp mrbgems/mruby-socket/src/const.cstub ../mruby-out/src/mrbgems/mruby-socket/src/const.cstub
 
 cd ..
 
