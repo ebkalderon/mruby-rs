@@ -19,17 +19,12 @@
 set -Euo pipefail
 
 VERSION=latest
-CURRENT=$PWD
+BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
+TEMP_DIR="$(mktemp -dt 'mruby')"
 
-# Checks is /tmp/mruby needs cleaning or creation.
+trap -- "rm -rf '${TEMP_DIR}'" EXIT
 
-if [ -d /tmp/mruby ]; then
-  rm -rf /tmp/mruby/*
-else
-  mkdir /tmp/mruby
-fi
-
-cd /tmp/mruby || exit 1
+cd "${TEMP_DIR}" || exit 1
 
 if [ "${VERSION}" == 'latest' ]; then
   curl -Lo latest.zip https://github.com/mruby/mruby/zipball/master
@@ -103,8 +98,8 @@ while IFS=$'\n' read -r line; do
   file_name="${data[0]}"
   read -ra defines <<< "${data[1]}"
   bindgen "${SWITCHES[@]/#/}" \
-    "${CURRENT}/wrapper.h" -- "${defines[@]/#/}" \
-    -I mruby-out/include/ > "${CURRENT}/../src/${file_name}.rs"
-done <<< "$(ruby "${CURRENT}/configure.rb")"
+    "${BASE_DIR}/wrapper.h" -- "${defines[@]/#/}" \
+    -I mruby-out/include/ > "${BASE_DIR}/../src/${file_name}.rs"
+done <<< "$(ruby "${BASE_DIR}/configure.rb")"
 
-tar -cf "${CURRENT}/mruby-out.tar" mruby-out
+tar -cf "${BASE_DIR}/mruby-out.tar" mruby-out
