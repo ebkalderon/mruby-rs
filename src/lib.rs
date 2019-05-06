@@ -33,7 +33,7 @@ impl Mruby {
 
         let mut state = value::State::new(self.state);
         let Value(val) = global.to_value(&mut state);
-        let owned = CString::new(name).expect("Unterminated string");
+        let owned = CString::new(name).expect("Contains null terminator mid-string");
 
         unsafe {
             let sym = mrb_intern_cstr(self.state, owned.as_ptr());
