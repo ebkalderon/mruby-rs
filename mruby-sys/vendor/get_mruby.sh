@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (C) 2018 Eyal Kalderon
+# Copyright (C) 2018-2019 Eyal Kalderon
 # Copyright (C) 2016 Dragoș Tiselice
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -18,7 +18,6 @@
 
 set -Euo pipefail
 
-# VERSION=1.4.1
 VERSION=latest
 CURRENT=$PWD
 
