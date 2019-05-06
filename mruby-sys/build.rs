@@ -21,6 +21,10 @@ fn main() {
     let mut build = cc::Build::new();
     build.warnings(false).opt_level(3);
 
+    if cfg!(target_endian = "big") {
+        build.define("MRB_ENDIAN_BIG", None);
+    }
+
     if cfg!(feature = "debug") {
         build.define("MRB_DEBUG", None);
         build.define("MRB_ENABLE_DEBUG_HOOK", None);
