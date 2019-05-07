@@ -2,7 +2,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-use std::os::raw::c_void;
+use std::os::raw::{c_char, c_void};
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(not(feature = "debug"))]
@@ -118,6 +118,9 @@ extern "C" {
     pub fn mrb_ext_nil_value() -> mrb_value;
 
     #[inline]
+    pub fn mrb_ext_raise(mrb: *mut mrb_state, err: *const c_char, msg: *const c_char) -> c_void;
+
+    #[inline]
     pub fn mrb_ext_symbol_value(i: mrb_sym) -> mrb_value;
 
     #[inline]
@@ -132,7 +135,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn open_close() {
+    fn mrb_open_close() {
         unsafe {
             let state = mrb_open();
             mrb_close(state);
@@ -163,7 +166,7 @@ mod tests {
         }
     }
 
-    #[cfg(feature = "use-floats")]
+    #[cfg(not(feature = "disable-floats"))]
     #[test]
     fn ext_float_value() {
         unsafe {
@@ -177,6 +180,17 @@ mod tests {
     fn ext_nil_value() {
         unsafe {
             let _val = mrb_ext_nil_value();
+        }
+    }
+
+    #[test]
+    fn ext_raise_success() {
+        unsafe {
+            let state = mrb_open();
+            let error = CString::new("RuntimeError").unwrap();
+            let message = CString::new("hello world").unwrap();
+            mrb_ext_raise(state, error.as_ptr(), message.as_ptr());
+            mrb_close(state);
         }
     }
 
