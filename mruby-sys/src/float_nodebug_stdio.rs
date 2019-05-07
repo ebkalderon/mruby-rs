@@ -4715,6 +4715,86 @@ extern "C" {
         cxt: *mut mrbc_context,
     ) -> mrb_value;
 }
+extern "C" {
+    pub fn mrb_sys_fail(mrb: *mut mrb_state, mesg: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    pub fn mrb_exc_new_str(mrb: *mut mrb_state, c: *mut RClass, str: mrb_value) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_make_exception(
+        mrb: *mut mrb_state,
+        argc: mrb_int,
+        argv: *const mrb_value,
+    ) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_exc_backtrace(mrb: *mut mrb_state, exc: mrb_value) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_get_backtrace(mrb: *mut mrb_state) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_no_method_error(
+        mrb: *mut mrb_state,
+        id: mrb_sym,
+        args: mrb_value,
+        fmt: *const ::std::os::raw::c_char,
+        ...
+    );
+}
+extern "C" {
+    pub fn mrb_f_raise(arg1: *mut mrb_state, arg2: mrb_value) -> mrb_value;
+}
+extern "C" {
+    /// Protect
+    ///
+    /// @mrbgem mruby-error
+    pub fn mrb_protect(
+        mrb: *mut mrb_state,
+        body: mrb_func_t,
+        data: mrb_value,
+        state: *mut mrb_bool,
+    ) -> mrb_value;
+}
+extern "C" {
+    /// Ensure
+    ///
+    /// @mrbgem mruby-error
+    pub fn mrb_ensure(
+        mrb: *mut mrb_state,
+        body: mrb_func_t,
+        b_data: mrb_value,
+        ensure: mrb_func_t,
+        e_data: mrb_value,
+    ) -> mrb_value;
+}
+extern "C" {
+    /// Rescue
+    ///
+    /// @mrbgem mruby-error
+    pub fn mrb_rescue(
+        mrb: *mut mrb_state,
+        body: mrb_func_t,
+        b_data: mrb_value,
+        rescue: mrb_func_t,
+        r_data: mrb_value,
+    ) -> mrb_value;
+}
+extern "C" {
+    /// Rescue exception
+    ///
+    /// @mrbgem mruby-error
+    pub fn mrb_rescue_exceptions(
+        mrb: *mut mrb_state,
+        body: mrb_func_t,
+        b_data: mrb_value,
+        rescue: mrb_func_t,
+        r_data: mrb_value,
+        len: mrb_int,
+        classes: *mut *mut RClass,
+    ) -> mrb_value;
+}
 /// Hash class
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]

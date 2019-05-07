@@ -3,6 +3,7 @@
 #include <mruby/array.h>
 #include <mruby/class.h>
 #include <mruby/compile.h>
+#include <mruby/error.h>
 #include <mruby/hash.h>
 #include <mruby/string.h>
 #include <mruby/time.h>
