@@ -170,7 +170,7 @@ impl State {
 
         let State(state) = *self;
         unsafe {
-            let s = CString::new(val.as_ref()).expect("Unterminated string");
+            let s = CString::new(val.as_ref()).expect("Contains null terminator mid-string");
             Value(mrb_str_new_cstr(state, s.as_ptr() as *mut _))
         }
     }
