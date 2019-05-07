@@ -1,4 +1,5 @@
 #include <mruby.h>
+#include <mruby/class.h>
 #include <mruby/value.h>
 
 mrb_value mrb_ext_bool_value(mrb_bool boolean) {
@@ -21,6 +22,10 @@ mrb_value mrb_ext_float_value(struct mrb_state *mrb, mrb_float f) {
 
 mrb_value mrb_ext_nil_value() {
     return mrb_nil_value();
+}
+
+mrb_noreturn void mrb_ext_raise(struct mrb_state *mrb, const char *err, const char *msg) {
+    mrb_raise(mrb, mrb_exc_get(mrb, err), msg);
 }
 
 mrb_value mrb_ext_symbol_value(mrb_sym i) {
