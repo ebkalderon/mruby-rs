@@ -6,6 +6,13 @@ mrb_value mrb_ext_bool_value(mrb_bool boolean) {
     return mrb_bool_value(boolean);
 }
 
+mrb_value mrb_ext_class_value(struct RClass *c) {
+    mrb_value value;
+    value.value.p = c;
+    value.tt = MRB_TT_CLASS;
+    return value;
+}
+
 mrb_value mrb_ext_cptr_value(struct mrb_state *mrb, void *p) {
     return mrb_cptr_value(mrb, p);
 }

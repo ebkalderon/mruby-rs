@@ -8,6 +8,9 @@ use crate::class::Class;
 
 pub mod to_value;
 
+#[derive(Clone, Debug)]
+pub struct CastError;
+
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Kind {
     Array,
@@ -63,24 +66,37 @@ impl Value {
             tt => panic!(format!("Unknown `mrb_vtype` specified: {:?}", tt)),
         }
     }
+
+    pub(crate) fn into_inner(self) -> mrb_value {
+        self.0
+    }
 }
 
 #[derive(Debug)]
-pub struct State(*mut mrb_state);
+pub struct Deserializer(*mut mrb_state);
 
-impl State {
+impl Deserializer {
     pub(crate) fn new(state: *mut mrb_state) -> Self {
-        State(state)
+        Deserializer(state)
+    }
+}
+
+#[derive(Debug)]
+pub struct Serializer(*mut mrb_state);
+
+impl Serializer {
+    pub(crate) fn new(state: *mut mrb_state) -> Self {
+        Serializer(state)
     }
 
     pub fn serialize_array<T: ToValue>(&mut self, val: &[T]) -> Value {
         use mruby_sys::mrb_ary_new_from_values;
 
-        let State(state) = *self;
+        let Serializer(state) = *self;
         let array: Vec<mrb_value> = val
             .iter()
             .map(|v| v.to_value(self))
-            .map(|Value(inner)| inner)
+            .map(|v| v.into_inner())
             .collect();
 
         unsafe {
@@ -100,8 +116,8 @@ impl State {
         use std::str::from_utf8_unchecked;
 
         let buf = [val as u8];
-        let thing = unsafe { from_utf8_unchecked(&buf) };
-        thing.to_value(self)
+        let s = unsafe { from_utf8_unchecked(&buf) };
+        s.to_value(self)
     }
 
     #[inline]
@@ -115,30 +131,32 @@ impl State {
     pub fn serialize_float(&mut self, val: mrb_float) -> Value {
         use mruby_sys::mrb_ext_float_value;
 
-        let State(state) = *self;
+        let Serializer(state) = *self;
         unsafe { Value(mrb_ext_float_value(state, val)) }
     }
 
     pub fn serialize_hash<'a, M, K, V>(&mut self, map: M) -> Value
     where
-        M: Iterator<Item = (&'a K, &'a V)>,
+        M: IntoIterator<Item = (&'a K, &'a V)>,
         K: ToValue + 'a,
         V: ToValue + 'a,
     {
         use mruby_sys::{mrb_hash_new, mrb_hash_new_capa, mrb_hash_set};
 
-        let State(state) = *self;
+        let Serializer(state) = *self;
+        let iter = map.into_iter();
+
         let hash = unsafe {
-            if let (_, Some(size)) = map.size_hint() {
+            if let (_, Some(size)) = iter.size_hint() {
                 mrb_hash_new_capa(state, size as mrb_int)
             } else {
                 mrb_hash_new(state)
             }
         };
 
-        for (key, value) in map {
-            let Value(k) = key.to_value(self);
-            let Value(v) = value.to_value(self);
+        for (key, value) in iter {
+            let k = key.to_value(self).into_inner();
+            let v = value.to_value(self).into_inner();
             unsafe {
                 mrb_hash_set(state, hash, k, v);
             }
@@ -159,19 +177,19 @@ impl State {
     }
 
     #[inline]
-    pub fn serialize_undef(&mut self) -> Value {
-        use mruby_sys::mrb_ext_undef_value;
-        unsafe { Value(mrb_ext_undef_value()) }
-    }
-
-    #[inline]
     pub fn serialize_string<S: AsRef<str>>(&mut self, val: S) -> Value {
         use mruby_sys::mrb_str_new_cstr;
 
-        let State(state) = *self;
+        let Serializer(state) = *self;
         unsafe {
-            let s = CString::new(val.as_ref()).expect("Contains null terminator mid-string");
-            Value(mrb_str_new_cstr(state, s.as_ptr() as *mut _))
+            let s = CString::new(val.as_ref()).expect("String contains null byte");
+            Value(mrb_str_new_cstr(state, s.as_ptr()))
         }
+    }
+
+    #[inline]
+    pub fn serialize_undef(&mut self) -> Value {
+        use mruby_sys::mrb_ext_undef_value;
+        unsafe { Value(mrb_ext_undef_value()) }
     }
 }

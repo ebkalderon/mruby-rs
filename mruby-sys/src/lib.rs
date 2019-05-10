@@ -105,6 +105,9 @@ extern "C" {
     pub fn mrb_ext_bool_value(boolean: mrb_bool) -> mrb_value;
 
     #[inline]
+    pub fn mrb_ext_class_value(c: *mut RClass) -> mrb_value;
+
+    #[inline]
     pub fn mrb_ext_cptr_value(mrb: *mut mrb_state, p: *mut c_void) -> mrb_value;
 
     #[inline]

@@ -1,11 +1,13 @@
 use mruby_sys::{self, mrb_state};
 
-use crate::value::{ToValue, Value};
+use crate::state::State;
+use crate::value::ToValue;
 
 pub mod value;
 
 mod class;
 mod module;
+mod state;
 
 #[derive(Debug)]
 pub enum Error {
@@ -31,13 +33,13 @@ impl Mruby {
         use mruby_sys::{mrb_gv_set, mrb_intern_cstr};
         use std::ffi::CString;
 
-        let mut state = value::State::new(self.state);
-        let Value(val) = global.to_value(&mut state);
-        let owned = CString::new(name).expect("Contains null terminator mid-string");
+        let mut state = State::new(self.state);
+        let value = global.to_value(&mut state.serialize()).into_inner();
+        let owned = CString::new(name).expect("String contains null byte");
 
         unsafe {
             let sym = mrb_intern_cstr(self.state, owned.as_ptr());
-            mrb_gv_set(self.state, sym, val);
+            mrb_gv_set(self.state, sym, value);
         }
     }
 }
@@ -74,8 +76,8 @@ mod tests {
         );
 
         unsafe {
-            let owned = CString::new("puts $example").expect("Unterminated string");
-            mruby_sys::mrb_load_string(mrb.state, owned.as_ptr() as *mut _);
+            let owned = CString::new("puts $example").unwrap();
+            mruby_sys::mrb_load_string(mrb.state, owned.as_ptr());
         }
     }
 }
