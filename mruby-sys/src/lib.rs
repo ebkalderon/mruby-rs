@@ -2,7 +2,13 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+#[cfg(not(feature = "disable-stdio"))]
+extern crate libc;
+
 use std::os::raw::{c_char, c_void};
+
+#[cfg(not(feature = "disable-stdio"))]
+use libc::FILE;
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(not(feature = "debug"))]

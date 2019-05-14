@@ -160,7 +160,6 @@ pub const MRB_STR_EMBED_LEN_SHIFT: u32 = 6;
 pub type __darwin_size_t = ::std::os::raw::c_ulong;
 pub type __darwin_va_list = __builtin_va_list;
 pub type va_list = __darwin_va_list;
-pub type FILE = [u64; 19usize];
 /// MRuby Value definition functions and macros.
 pub type mrb_sym = u32;
 pub type mrb_bool = u8;

@@ -13,6 +13,8 @@ disable-stdio = ["mruby-sys/disable-stdio"]
 use-f32 = ["mruby-sys/use-f32"]
 utf8 = ["mruby-sys/utf8"]
 
+[dependencies]
+
 [dependencies.mruby-sys]
 version = "0.1.0"
 path = "./mruby-sys/"

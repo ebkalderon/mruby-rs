@@ -84,13 +84,14 @@ cd ..
 
 WHITELIST='_mrb*|MRB*|MRUBY*|mrb*|mruby*'
 SWITCHES=(
+  --blacklist-type 'FILE'
+  --opaque-type 'FILE'
   --whitelist-type "${WHITELIST}"
   --whitelist-function "${WHITELIST}"
   --whitelist-var "${WHITELIST}"
   --generate-inline-functions
   --distrust-clang-mangling
   --no-prepend-enum-name
-  --opaque-type 'FILE'
   --impl-debug
 )
 
