@@ -1,7 +1,7 @@
 use mruby_sys::{self, mrb_state};
 
 use crate::state::State;
-use crate::value::ToValue;
+use crate::value::{FromValue, ToValue, Value};
 
 pub mod value;
 
@@ -34,13 +34,27 @@ impl Mruby {
         use std::ffi::CString;
 
         let mut state = State::new(self.state);
-        let value = global.to_value(&mut state.serialize()).into_inner();
+        let value = global.to_value(state.serialize()).into_inner();
         let owned = CString::new(name).expect("String contains null byte");
 
         unsafe {
             let sym = mrb_intern_cstr(self.state, owned.as_ptr());
             mrb_gv_set(self.state, sym, value);
         }
+    }
+
+    pub fn get_global<V: FromValue>(&mut self, name: &str) -> Result<V, ()> {
+        use mruby_sys::{mrb_gv_get, mrb_intern_cstr};
+        use std::ffi::CString;
+
+        let value = unsafe {
+            let owned = CString::new(name).expect("String contains null byte");
+            let sym = mrb_intern_cstr(self.state, owned.as_ptr());
+            Value(mrb_gv_get(self.state, sym))
+        };
+
+        let mut state = State::new(self.state);
+        V::from_value(state.deserialize(value)).map_err(|_| ())
     }
 }
 
@@ -56,28 +70,31 @@ unsafe impl Send for Mruby {}
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
+    use std::collections::BTreeMap;
     use std::ffi::CString;
 
     use super::*;
 
     #[test]
-    fn hello_world() {
-        let mut map = HashMap::new();
-        map.reserve(3);
+    fn round_trip() {
+        let mut ruby = Mruby::new().unwrap();
+
+        let mut map = BTreeMap::new();
         map.insert("first", 16);
         map.insert("second", 17);
         map.insert("third", 18);
 
-        let mut mrb = Mruby::new().unwrap();
-        mrb.register_global(
-            "$example",
-            (42, Some("hello"), [1, 2, 3], 64.5f32, &map, true),
-        );
+        let input = (42, Some("hello"), [1, 2, 3], 64.5f32, map, true);
+        ruby.register_global("$example", &input);
+        println!("  serialized (rust): {:?}", input);
 
         unsafe {
-            let owned = CString::new("puts $example").unwrap();
-            mruby_sys::mrb_load_string(mrb.state, owned.as_ptr());
+            let owned = CString::new(r#"puts "native value (ruby): #{$example}""#).unwrap();
+            mruby_sys::mrb_load_string(ruby.state, owned.as_ptr());
         }
+
+        let output = ruby.get_global("$example").unwrap();
+        println!("deserialized (rust): {:?}", output);
+        assert_eq!(input, output);
     }
 }
