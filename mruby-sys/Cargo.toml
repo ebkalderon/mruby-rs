@@ -2,22 +2,23 @@
 name = "mruby-sys"
 version = "0.1.0"
 authors = ["Eyal Kalderon <ebkalderon@gmail.com>"]
-edition = "2018"
-links = "libmruby"
-build = "build.rs"
+description = "Raw FFI bindings to mruby"
 include = ["vendor/mruby-out.tar", "vendor/wrapper.*"]
+edition = "2018"
+build = "build.rs"
+links = "libmruby"
 
 [features]
-default = ["utf8"]
+default = ["stdio", "utf8"]
 debug = []
 disable-floats = []
-disable-stdio = []
 disable-generational-gc = []
+stdio = ["libc"]
 use-f32 = []
 utf8 = []
 
 [dependencies]
-libc = "0.2.54"
+libc = { version = "0.2.54", optional = true }
 
 [build-dependencies]
 cc = "1.0"

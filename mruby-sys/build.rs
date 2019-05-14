@@ -29,10 +29,6 @@ fn main() {
         build.define("MRB_ENABLE_DEBUG_HOOK", None);
     }
 
-    if cfg!(feature = "disable-stdio") {
-        build.define("MRB_DISABLE_STDIO", None);
-    }
-
     if cfg!(feature = "disable-floats") {
         build.define("MRB_WITHOUT_FLOAT", None);
     }
@@ -47,6 +43,10 @@ fn main() {
         if cfg!(feature = "disable-floats") {
             panic!("Cannot enable `disable-floats` and `use-f32` features together");
         }
+    }
+
+    if cfg!(not(feature = "stdio")) {
+        build.define("MRB_DISABLE_STDIO", None);
     }
 
     if cfg!(feature = "utf8") {

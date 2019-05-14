@@ -5,11 +5,11 @@ authors = ["Eyal Kalderon <ebkalderon@gmail.com>"]
 edition = "2018"
 
 [features]
-default = ["utf8"]
+default = ["stdio", "utf8"]
 debug = ["mruby-sys/debug"]
 disable-floats = ["mruby-sys/disable-floats"]
 disable-generational-gc = ["mruby-sys/disable-generational-gc"]
-disable-stdio = ["mruby-sys/disable-stdio"]
+stdio = ["mruby-sys/stdio"]
 use-f32 = ["mruby-sys/use-f32"]
 utf8 = ["mruby-sys/utf8"]
 
@@ -18,6 +18,7 @@ utf8 = ["mruby-sys/utf8"]
 [dependencies.mruby-sys]
 version = "0.1.0"
 path = "./mruby-sys/"
+default-features = false
 
 [workspace]
 members = [".", "mruby-macros", "mruby-sys"]

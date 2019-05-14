@@ -1,18 +1,21 @@
+//! Raw FFI bindings to [mruby](https://mruby.org/). For higher-level mruby bindings, see
+//! [mruby-rs].
+//!
+//! FIXME: Need to switch to `std::ffi::VaList` once
+//! [rust-lang/rust#44930](https://github.com/rust-lang/rust/issues/44930) is stabilized.
+
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-#[cfg(not(feature = "disable-stdio"))]
-extern crate libc;
-
 use std::os::raw::{c_char, c_void};
 
-#[cfg(not(feature = "disable-stdio"))]
+#[cfg(feature = "stdio")]
 use libc::FILE;
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(not(feature = "debug"))]
-#[cfg(not(feature = "disable-stdio"))]
+#[cfg(feature = "stdio")]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/double_nodebug_stdio.rs"
@@ -20,7 +23,7 @@ include!(concat!(
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(not(feature = "debug"))]
-#[cfg(feature = "disable-stdio")]
+#[cfg(not(feature = "stdio"))]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/double_nodebug_nostdio.rs"
@@ -28,7 +31,7 @@ include!(concat!(
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(feature = "debug")]
-#[cfg(not(feature = "disable-stdio"))]
+#[cfg(feature = "stdio")]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/double_debug_stdio.rs"
@@ -36,7 +39,7 @@ include!(concat!(
 
 #[cfg(not(feature = "use-f32"))]
 #[cfg(feature = "debug")]
-#[cfg(feature = "disable-stdio")]
+#[cfg(not(feature = "stdio"))]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/double_debug_nostdio.rs"
@@ -44,7 +47,7 @@ include!(concat!(
 
 #[cfg(feature = "use-f32")]
 #[cfg(not(feature = "debug"))]
-#[cfg(not(feature = "disable-stdio"))]
+#[cfg(feature = "stdio")]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/float_nodebug_stdio.rs"
@@ -52,7 +55,7 @@ include!(concat!(
 
 #[cfg(feature = "use-f32")]
 #[cfg(not(feature = "debug"))]
-#[cfg(feature = "disable-stdio")]
+#[cfg(not(feature = "stdio"))]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/float_nodebug_nostdio.rs"
@@ -60,7 +63,7 @@ include!(concat!(
 
 #[cfg(feature = "use-f32")]
 #[cfg(feature = "debug")]
-#[cfg(not(feature = "disable-stdio"))]
+#[cfg(feature = "stdio")]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/float_debug_stdio.rs"
@@ -68,7 +71,7 @@ include!(concat!(
 
 #[cfg(feature = "use-f32")]
 #[cfg(feature = "debug")]
-#[cfg(feature = "disable-stdio")]
+#[cfg(not(feature = "stdio"))]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/float_debug_nostdio.rs"
@@ -76,7 +79,7 @@ include!(concat!(
 
 #[cfg(feature = "disable-floats")]
 #[cfg(not(feature = "debug"))]
-#[cfg(not(feature = "disable-stdio"))]
+#[cfg(feature = "stdio")]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/nofloat_nodebug_stdio.rs"
@@ -84,7 +87,7 @@ include!(concat!(
 
 #[cfg(feature = "disable-floats")]
 #[cfg(not(feature = "debug"))]
-#[cfg(feature = "disable-stdio")]
+#[cfg(not(feature = "stdio"))]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/nofloat_nodebug_nostdio.rs"
@@ -92,7 +95,7 @@ include!(concat!(
 
 #[cfg(feature = "disable-floats")]
 #[cfg(feature = "debug")]
-#[cfg(not(feature = "disable-stdio"))]
+#[cfg(feature = "stdio")]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/nofloat_debug_stdio.rs"
@@ -100,7 +103,7 @@ include!(concat!(
 
 #[cfg(feature = "disable-floats")]
 #[cfg(feature = "debug")]
-#[cfg(feature = "disable-stdio")]
+#[cfg(not(feature = "stdio"))]
 include!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/src/nofloat_debug_nostdio.rs"
