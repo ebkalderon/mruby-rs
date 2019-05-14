@@ -7,6 +7,7 @@ pub mod value;
 
 mod class;
 mod module;
+mod object;
 mod state;
 
 #[derive(Debug)]
