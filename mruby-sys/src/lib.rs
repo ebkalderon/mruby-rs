@@ -102,6 +102,9 @@ include!(concat!(
 
 extern "C" {
     #[inline]
+    pub fn mrb_ext_ary_len(array: mrb_value) -> mrb_int;
+
+    #[inline]
     pub fn mrb_ext_bool_value(boolean: mrb_bool) -> mrb_value;
 
     #[inline]
@@ -111,11 +114,21 @@ extern "C" {
     pub fn mrb_ext_cptr_value(mrb: *mut mrb_state, p: *mut c_void) -> mrb_value;
 
     #[inline]
+    pub fn mrb_ext_fixnum_to_cint(num: mrb_value) -> mrb_int;
+
+    #[inline]
     pub fn mrb_ext_fixnum_value(i: mrb_int) -> mrb_value;
 
     #[cfg(not(feature = "disable-floats"))]
     #[inline]
+    pub fn mrb_ext_float_to_cfloat(flt: mrb_value) -> mrb_float;
+
+    #[cfg(not(feature = "disable-floats"))]
+    #[inline]
     pub fn mrb_ext_float_value(mrb: *mut mrb_state, f: mrb_float) -> mrb_value;
+
+    #[inline]
+    pub fn mrb_ext_is_value_nil(mrb: *mut mrb_state, v: mrb_value) -> mrb_bool;
 
     #[inline]
     pub fn mrb_ext_nil_value() -> mrb_value;
@@ -163,9 +176,32 @@ mod tests {
     }
 
     #[test]
+    fn ext_fixnum_to_cint() {
+        let input = 123;
+        let fixnum = unsafe { mrb_ext_fixnum_value(input as mrb_int) };
+        let output = unsafe { mrb_ext_fixnum_to_cint(fixnum) };
+        assert_eq!(input, output);
+    }
+
+    #[test]
     fn ext_fixnum_value() {
         unsafe {
             let _val = mrb_ext_fixnum_value(42 as mrb_int);
+        }
+    }
+
+    #[cfg(not(feature = "disable-floats"))]
+    #[test]
+    fn ext_float_to_cfloat() {
+        unsafe {
+            let state = mrb_open();
+
+            let input = 1.0;
+            let float = mrb_ext_float_value(state, input as mrb_float);
+            let output = mrb_ext_float_to_cfloat(float);
+            assert_eq!(input, output);
+
+            mrb_close(state);
         }
     }
 
@@ -180,6 +216,23 @@ mod tests {
     }
 
     #[test]
+    fn ext_is_value_nil() {
+        unsafe {
+            let state = mrb_open();
+
+            let val = mrb_ext_nil_value();
+            let is_nil = mrb_ext_is_value_nil(state, val) == 1;
+            assert!(is_nil);
+
+            let val = mrb_ext_fixnum_value(5);
+            let is_not_nil = mrb_ext_is_value_nil(state, val) == 0;
+            assert!(is_not_nil);
+
+            mrb_close(state);
+        }
+    }
+
+    #[test]
     fn ext_nil_value() {
         unsafe {
             let _val = mrb_ext_nil_value();
@@ -187,6 +240,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn ext_raise_success() {
         unsafe {
             let state = mrb_open();

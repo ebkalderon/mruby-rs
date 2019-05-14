@@ -89,6 +89,7 @@ SWITCHES=(
   --whitelist-var "${WHITELIST}"
   --generate-inline-functions
   --distrust-clang-mangling
+  --no-prepend-enum-name
   --opaque-type 'FILE'
   --impl-debug
 )

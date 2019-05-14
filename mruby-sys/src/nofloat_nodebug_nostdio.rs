@@ -162,32 +162,32 @@ pub type va_list = __builtin_va_list;
 pub type mrb_sym = u32;
 pub type mrb_bool = u8;
 pub type mrb_int = i64;
-pub const mrb_vtype_MRB_TT_FALSE: mrb_vtype = 0;
-pub const mrb_vtype_MRB_TT_FREE: mrb_vtype = 1;
-pub const mrb_vtype_MRB_TT_TRUE: mrb_vtype = 2;
-pub const mrb_vtype_MRB_TT_FIXNUM: mrb_vtype = 3;
-pub const mrb_vtype_MRB_TT_SYMBOL: mrb_vtype = 4;
-pub const mrb_vtype_MRB_TT_UNDEF: mrb_vtype = 5;
-pub const mrb_vtype_MRB_TT_FLOAT: mrb_vtype = 6;
-pub const mrb_vtype_MRB_TT_CPTR: mrb_vtype = 7;
-pub const mrb_vtype_MRB_TT_OBJECT: mrb_vtype = 8;
-pub const mrb_vtype_MRB_TT_CLASS: mrb_vtype = 9;
-pub const mrb_vtype_MRB_TT_MODULE: mrb_vtype = 10;
-pub const mrb_vtype_MRB_TT_ICLASS: mrb_vtype = 11;
-pub const mrb_vtype_MRB_TT_SCLASS: mrb_vtype = 12;
-pub const mrb_vtype_MRB_TT_PROC: mrb_vtype = 13;
-pub const mrb_vtype_MRB_TT_ARRAY: mrb_vtype = 14;
-pub const mrb_vtype_MRB_TT_HASH: mrb_vtype = 15;
-pub const mrb_vtype_MRB_TT_STRING: mrb_vtype = 16;
-pub const mrb_vtype_MRB_TT_RANGE: mrb_vtype = 17;
-pub const mrb_vtype_MRB_TT_EXCEPTION: mrb_vtype = 18;
-pub const mrb_vtype_MRB_TT_FILE: mrb_vtype = 19;
-pub const mrb_vtype_MRB_TT_ENV: mrb_vtype = 20;
-pub const mrb_vtype_MRB_TT_DATA: mrb_vtype = 21;
-pub const mrb_vtype_MRB_TT_FIBER: mrb_vtype = 22;
-pub const mrb_vtype_MRB_TT_ISTRUCT: mrb_vtype = 23;
-pub const mrb_vtype_MRB_TT_BREAK: mrb_vtype = 24;
-pub const mrb_vtype_MRB_TT_MAXDEFINE: mrb_vtype = 25;
+pub const MRB_TT_FALSE: mrb_vtype = 0;
+pub const MRB_TT_FREE: mrb_vtype = 1;
+pub const MRB_TT_TRUE: mrb_vtype = 2;
+pub const MRB_TT_FIXNUM: mrb_vtype = 3;
+pub const MRB_TT_SYMBOL: mrb_vtype = 4;
+pub const MRB_TT_UNDEF: mrb_vtype = 5;
+pub const MRB_TT_FLOAT: mrb_vtype = 6;
+pub const MRB_TT_CPTR: mrb_vtype = 7;
+pub const MRB_TT_OBJECT: mrb_vtype = 8;
+pub const MRB_TT_CLASS: mrb_vtype = 9;
+pub const MRB_TT_MODULE: mrb_vtype = 10;
+pub const MRB_TT_ICLASS: mrb_vtype = 11;
+pub const MRB_TT_SCLASS: mrb_vtype = 12;
+pub const MRB_TT_PROC: mrb_vtype = 13;
+pub const MRB_TT_ARRAY: mrb_vtype = 14;
+pub const MRB_TT_HASH: mrb_vtype = 15;
+pub const MRB_TT_STRING: mrb_vtype = 16;
+pub const MRB_TT_RANGE: mrb_vtype = 17;
+pub const MRB_TT_EXCEPTION: mrb_vtype = 18;
+pub const MRB_TT_FILE: mrb_vtype = 19;
+pub const MRB_TT_ENV: mrb_vtype = 20;
+pub const MRB_TT_DATA: mrb_vtype = 21;
+pub const MRB_TT_FIBER: mrb_vtype = 22;
+pub const MRB_TT_ISTRUCT: mrb_vtype = 23;
+pub const MRB_TT_BREAK: mrb_vtype = 24;
+pub const MRB_TT_MAXDEFINE: mrb_vtype = 25;
 pub type mrb_vtype = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -613,9 +613,9 @@ extern "C" {
 extern "C" {
     pub fn mrb_free_context(mrb: *mut mrb_state, c: *mut mrb_context);
 }
-pub const mrb_gc_state_MRB_GC_STATE_ROOT: mrb_gc_state = 0;
-pub const mrb_gc_state_MRB_GC_STATE_MARK: mrb_gc_state = 1;
-pub const mrb_gc_state_MRB_GC_STATE_SWEEP: mrb_gc_state = 2;
+pub const MRB_GC_STATE_ROOT: mrb_gc_state = 0;
+pub const MRB_GC_STATE_MARK: mrb_gc_state = 1;
+pub const MRB_GC_STATE_SWEEP: mrb_gc_state = 2;
 pub type mrb_gc_state = u32;
 #[repr(C)]
 #[derive(Debug)]
@@ -1113,12 +1113,12 @@ fn bindgen_test_layout_mrb_callinfo() {
         )
     );
 }
-pub const mrb_fiber_state_MRB_FIBER_CREATED: mrb_fiber_state = 0;
-pub const mrb_fiber_state_MRB_FIBER_RUNNING: mrb_fiber_state = 1;
-pub const mrb_fiber_state_MRB_FIBER_RESUMED: mrb_fiber_state = 2;
-pub const mrb_fiber_state_MRB_FIBER_SUSPENDED: mrb_fiber_state = 3;
-pub const mrb_fiber_state_MRB_FIBER_TRANSFERRED: mrb_fiber_state = 4;
-pub const mrb_fiber_state_MRB_FIBER_TERMINATED: mrb_fiber_state = 5;
+pub const MRB_FIBER_CREATED: mrb_fiber_state = 0;
+pub const MRB_FIBER_RUNNING: mrb_fiber_state = 1;
+pub const MRB_FIBER_RESUMED: mrb_fiber_state = 2;
+pub const MRB_FIBER_SUSPENDED: mrb_fiber_state = 3;
+pub const MRB_FIBER_TRANSFERRED: mrb_fiber_state = 4;
+pub const MRB_FIBER_TERMINATED: mrb_fiber_state = 5;
 pub type mrb_fiber_state = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -3884,18 +3884,18 @@ fn bindgen_test_layout_mrb_ast_node() {
         )
     );
 }
-pub const mrb_lex_state_enum_EXPR_BEG: mrb_lex_state_enum = 0;
-pub const mrb_lex_state_enum_EXPR_END: mrb_lex_state_enum = 1;
-pub const mrb_lex_state_enum_EXPR_ENDARG: mrb_lex_state_enum = 2;
-pub const mrb_lex_state_enum_EXPR_ENDFN: mrb_lex_state_enum = 3;
-pub const mrb_lex_state_enum_EXPR_ARG: mrb_lex_state_enum = 4;
-pub const mrb_lex_state_enum_EXPR_CMDARG: mrb_lex_state_enum = 5;
-pub const mrb_lex_state_enum_EXPR_MID: mrb_lex_state_enum = 6;
-pub const mrb_lex_state_enum_EXPR_FNAME: mrb_lex_state_enum = 7;
-pub const mrb_lex_state_enum_EXPR_DOT: mrb_lex_state_enum = 8;
-pub const mrb_lex_state_enum_EXPR_CLASS: mrb_lex_state_enum = 9;
-pub const mrb_lex_state_enum_EXPR_VALUE: mrb_lex_state_enum = 10;
-pub const mrb_lex_state_enum_EXPR_MAX_STATE: mrb_lex_state_enum = 11;
+pub const EXPR_BEG: mrb_lex_state_enum = 0;
+pub const EXPR_END: mrb_lex_state_enum = 1;
+pub const EXPR_ENDARG: mrb_lex_state_enum = 2;
+pub const EXPR_ENDFN: mrb_lex_state_enum = 3;
+pub const EXPR_ARG: mrb_lex_state_enum = 4;
+pub const EXPR_CMDARG: mrb_lex_state_enum = 5;
+pub const EXPR_MID: mrb_lex_state_enum = 6;
+pub const EXPR_FNAME: mrb_lex_state_enum = 7;
+pub const EXPR_DOT: mrb_lex_state_enum = 8;
+pub const EXPR_CLASS: mrb_lex_state_enum = 9;
+pub const EXPR_VALUE: mrb_lex_state_enum = 10;
+pub const EXPR_MAX_STATE: mrb_lex_state_enum = 11;
 pub type mrb_lex_state_enum = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -3947,17 +3947,17 @@ fn bindgen_test_layout_mrb_parser_message() {
         )
     );
 }
-pub const mrb_string_type_str_not_parsing: mrb_string_type = 0;
-pub const mrb_string_type_str_squote: mrb_string_type = 1;
-pub const mrb_string_type_str_dquote: mrb_string_type = 3;
-pub const mrb_string_type_str_regexp: mrb_string_type = 7;
-pub const mrb_string_type_str_sword: mrb_string_type = 41;
-pub const mrb_string_type_str_dword: mrb_string_type = 43;
-pub const mrb_string_type_str_ssym: mrb_string_type = 17;
-pub const mrb_string_type_str_ssymbols: mrb_string_type = 49;
-pub const mrb_string_type_str_dsymbols: mrb_string_type = 51;
-pub const mrb_string_type_str_heredoc: mrb_string_type = 65;
-pub const mrb_string_type_str_xquote: mrb_string_type = 131;
+pub const str_not_parsing: mrb_string_type = 0;
+pub const str_squote: mrb_string_type = 1;
+pub const str_dquote: mrb_string_type = 3;
+pub const str_regexp: mrb_string_type = 7;
+pub const str_sword: mrb_string_type = 41;
+pub const str_dword: mrb_string_type = 43;
+pub const str_ssym: mrb_string_type = 17;
+pub const str_ssymbols: mrb_string_type = 49;
+pub const str_dsymbols: mrb_string_type = 51;
+pub const str_heredoc: mrb_string_type = 65;
+pub const str_xquote: mrb_string_type = 131;
 pub type mrb_string_type = u32;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -5423,10 +5423,10 @@ extern "C" {
 extern "C" {
     pub fn mrb_str_inspect(mrb: *mut mrb_state, str: mrb_value) -> mrb_value;
 }
-pub const mrb_timezone_MRB_TIMEZONE_NONE: mrb_timezone = 0;
-pub const mrb_timezone_MRB_TIMEZONE_UTC: mrb_timezone = 1;
-pub const mrb_timezone_MRB_TIMEZONE_LOCAL: mrb_timezone = 2;
-pub const mrb_timezone_MRB_TIMEZONE_LAST: mrb_timezone = 3;
+pub const MRB_TIMEZONE_NONE: mrb_timezone = 0;
+pub const MRB_TIMEZONE_UTC: mrb_timezone = 1;
+pub const MRB_TIMEZONE_LOCAL: mrb_timezone = 2;
+pub const MRB_TIMEZONE_LAST: mrb_timezone = 3;
 pub type mrb_timezone = u32;
 extern "C" {
     pub fn mrb_time_at(
