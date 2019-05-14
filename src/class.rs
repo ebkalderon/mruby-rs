@@ -1,6 +1,6 @@
 use std::ffi::CString;
 
-use mruby_sys::{mrb_class_get, mrb_define_class, mrb_define_const, mrb_intern, RClass};
+use mruby_sys::{mrb_class_get, mrb_define_class, mrb_intern, RClass};
 
 use crate::state::State;
 use crate::value::ToValue;
@@ -19,7 +19,7 @@ pub struct Builder {
 }
 
 impl Builder {
-    pub(crate) unsafe fn new(state: State, name: &str, parent: Option<&str>) -> Self {
+    pub(crate) unsafe fn new(mut state: State, name: &str, parent: Option<&str>) -> Self {
         let name = CString::new(name).expect("String contains null byte");
         let parent = match parent {
             None => (*state.as_mut_ptr()).object_class,
@@ -43,8 +43,10 @@ impl Builder {
         N: AsRef<str>,
         V: ToValue,
     {
+        use mruby_sys::mrb_define_const;
+
         let name = CString::new(name.as_ref()).expect("String contains null byte");
-        let value = value.to_value(&mut self.state.serialize()).into_inner();
+        let value = value.to_value(self.state.serialize()).into_inner();
 
         unsafe {
             mrb_define_const(self.state.as_mut_ptr(), self.class, name.as_ptr(), value);
@@ -59,10 +61,10 @@ impl Builder {
     {
         let s = name.as_ref();
         let name = CString::new(s).expect("String contains null byte");
-        let value = value.to_value(&mut self.state.serialize()).into_inner();
+        let _value = value.to_value(self.state.serialize()).into_inner();
 
         unsafe {
-            let sym = mrb_intern(self.state.as_mut_ptr(), name.as_ptr(), s.len());
+            let _sym = mrb_intern(self.state.as_mut_ptr(), name.as_ptr(), s.len());
             unimplemented!()
         }
     }
