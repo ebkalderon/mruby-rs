@@ -18,7 +18,6 @@ mrb_value mrb_ext_class_value(struct RClass *c) {
     return value;
 }
 
-
 mrb_value mrb_ext_cptr_value(struct mrb_state *mrb, void *p) {
     return mrb_cptr_value(mrb, p);
 }
@@ -41,8 +40,8 @@ mrb_value mrb_ext_float_value(struct mrb_state *mrb, mrb_float f) {
 }
 #endif
 
-mrb_bool mrb_ext_is_value_nil(struct mrb_state *mrb, mrb_value v) {
-    return mrb_obj_is_kind_of(mrb, v, mrb->nil_class);
+mrb_bool mrb_ext_is_value_nil(mrb_value v) {
+    return mrb_nil_p(v);
 }
 
 mrb_value mrb_ext_nil_value() {
@@ -51,6 +50,10 @@ mrb_value mrb_ext_nil_value() {
 
 mrb_noreturn void mrb_ext_raise(struct mrb_state *mrb, const char *err, const char *msg) {
     mrb_raise(mrb, mrb_exc_get(mrb, err), msg);
+}
+
+mrb_sym mrb_ext_symbol_to_sym(mrb_value sym) {
+    return mrb_symbol(sym);
 }
 
 mrb_value mrb_ext_symbol_value(mrb_sym i) {

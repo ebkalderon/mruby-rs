@@ -13,7 +13,9 @@ stdio = ["mruby-sys/stdio"]
 use-f32 = ["mruby-sys/use-f32"]
 utf8 = ["mruby-sys/utf8"]
 
-[dependencies]
+[dependencies.mruby-macros]
+version = "0.1.0"
+path = "./mruby-macros/"
 
 [dependencies.mruby-sys]
 version = "0.1.0"
@@ -22,4 +24,3 @@ default-features = false
 
 [workspace]
 members = [".", "mruby-macros", "mruby-sys"]
-default-members = [".", "mruby-sys"]

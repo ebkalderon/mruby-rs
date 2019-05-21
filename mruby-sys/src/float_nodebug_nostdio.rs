@@ -145,7 +145,7 @@ pub const MRB_FL_CLASS_IS_PREPENDED: u32 = 524288;
 pub const MRB_FL_CLASS_IS_ORIGIN: u32 = 262144;
 pub const MRB_FL_CLASS_IS_INHERITED: u32 = 131072;
 pub const MRB_INSTANCE_TT_MASK: u32 = 255;
-pub const MRB_PARSER_TOKBUF_MAX: u32 = 65536;
+pub const MRB_PARSER_TOKBUF_MAX: u32 = 65534;
 pub const MRB_PARSER_TOKBUF_SIZE: u32 = 256;
 pub const MRB_HASH_DEFAULT: u32 = 1;
 pub const MRB_HASH_PROC_DEFAULT: u32 = 2;
@@ -5602,6 +5602,9 @@ extern "C" {
 }
 extern "C" {
     pub fn mrb_obj_iv_inspect(arg1: *mut mrb_state, arg2: *mut RObject) -> mrb_value;
+}
+extern "C" {
+    pub fn mrb_obj_iv_set_force(mrb: *mut mrb_state, obj: *mut RObject, sym: mrb_sym, v: mrb_value);
 }
 extern "C" {
     pub fn mrb_mod_constants(mrb: *mut mrb_state, mod_: mrb_value) -> mrb_value;

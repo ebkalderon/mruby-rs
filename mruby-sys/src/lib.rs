@@ -137,13 +137,16 @@ extern "C" {
     pub fn mrb_ext_float_value(mrb: *mut mrb_state, f: mrb_float) -> mrb_value;
 
     #[inline]
-    pub fn mrb_ext_is_value_nil(mrb: *mut mrb_state, v: mrb_value) -> mrb_bool;
+    pub fn mrb_ext_is_value_nil(v: mrb_value) -> mrb_bool;
 
     #[inline]
     pub fn mrb_ext_nil_value() -> mrb_value;
 
     #[inline]
     pub fn mrb_ext_raise(mrb: *mut mrb_state, err: *const c_char, msg: *const c_char) -> c_void;
+
+    #[inline]
+    pub fn mrb_ext_symbol_to_sym(sym: mrb_value) -> mrb_sym;
 
     #[inline]
     pub fn mrb_ext_symbol_value(i: mrb_sym) -> mrb_value;
@@ -154,7 +157,7 @@ extern "C" {
 
 #[cfg(test)]
 mod tests {
-    use std::ffi::CString;
+    use std::ffi::{CStr, CString};
     use std::ptr;
 
     use super::*;
@@ -163,30 +166,46 @@ mod tests {
     fn mrb_open_close() {
         unsafe {
             let state = mrb_open();
+            assert!(!state.is_null());
+            mrb_close(state);
+        }
+    }
+
+    #[test]
+    fn ext_ary_len() {
+        unsafe {
+            let state = mrb_open();
+
+            let mut array = [mrb_ext_nil_value(), mrb_ext_nil_value()];
+            let val = mrb_ary_new_from_values(state, array.len() as mrb_int, array.as_mut_ptr());
+            let len = mrb_ext_ary_len(val) as usize;
+            assert_eq!(len, 2);
+
             mrb_close(state);
         }
     }
 
     #[test]
     fn ext_bool_value() {
-        unsafe {
-            let _true = mrb_ext_bool_value(true as mrb_bool);
-            let _false = mrb_ext_bool_value(false as mrb_bool);
-        }
+        let true_val = unsafe { mrb_ext_bool_value(true as mrb_bool) };
+        assert_eq!(true_val.tt, MRB_TT_TRUE);
+
+        let false_val = unsafe { mrb_ext_bool_value(false as mrb_bool) };
+        assert_eq!(false_val.tt, MRB_TT_FALSE);
     }
 
     #[test]
     fn ext_cptr_value() {
         unsafe {
             let state = mrb_open();
-            let _val = mrb_ext_cptr_value(state, ptr::null_mut());
+            let _ = mrb_ext_cptr_value(state, ptr::null_mut());
             mrb_close(state);
         }
     }
 
     #[test]
     fn ext_fixnum_to_cint() {
-        let input = 123;
+        let input = 42;
         let fixnum = unsafe { mrb_ext_fixnum_value(input as mrb_int) };
         let output = unsafe { mrb_ext_fixnum_to_cint(fixnum) };
         assert_eq!(input, output);
@@ -195,7 +214,10 @@ mod tests {
     #[test]
     fn ext_fixnum_value() {
         unsafe {
-            let _val = mrb_ext_fixnum_value(42 as mrb_int);
+            let input = 42;
+            let val = mrb_ext_fixnum_value(input as mrb_int);
+            assert_eq!(val.tt, MRB_TT_FIXNUM);
+            assert_eq!(val.value.i, input);
         }
     }
 
@@ -219,23 +241,12 @@ mod tests {
     fn ext_float_value() {
         unsafe {
             let state = mrb_open();
-            let _val = mrb_ext_float_value(state, 3.14159f32 as mrb_float);
-            mrb_close(state);
-        }
-    }
 
-    #[test]
-    fn ext_is_value_nil() {
-        unsafe {
-            let state = mrb_open();
-
-            let val = mrb_ext_nil_value();
-            let is_nil = mrb_ext_is_value_nil(state, val) == 1;
-            assert!(is_nil);
-
-            let val = mrb_ext_fixnum_value(5);
-            let is_not_nil = mrb_ext_is_value_nil(state, val) == 0;
-            assert!(is_not_nil);
+            let input = 3.14;
+            let val = mrb_ext_float_value(state, input as mrb_float);
+            assert_eq!(val.tt, MRB_TT_FLOAT);
+            // NOTE: Cannot check the float value in `val.value.f` here because it will not work
+            // with `MRB_WORD_BOXING`.
 
             mrb_close(state);
         }
@@ -244,7 +255,13 @@ mod tests {
     #[test]
     fn ext_nil_value() {
         unsafe {
-            let _val = mrb_ext_nil_value();
+            let val = mrb_ext_nil_value();
+            let is_nil = mrb_ext_is_value_nil(val);
+            assert_eq!(is_nil, 1);
+
+            let val = mrb_ext_fixnum_value(5);
+            let is_nil = mrb_ext_is_value_nil(val);
+            assert_eq!(is_nil, 0);
         }
     }
 
@@ -264,15 +281,23 @@ mod tests {
     fn ext_symbol_value() {
         unsafe {
             let state = mrb_open();
-            let sym = mrb_intern_cstr(state, CString::new("example").unwrap().as_ptr());
-            let _val = mrb_ext_symbol_value(sym);
+
+            let input = CString::new("example").unwrap();
+            let sym = mrb_intern_cstr(state, input.as_ptr());
+            let val = mrb_ext_symbol_value(sym);
+            assert_eq!(val.tt, MRB_TT_SYMBOL);
+            assert_eq!(val.value.sym, sym);
+
+            let output = CString::from(CStr::from_ptr(mrb_sym2name(state, sym)));
+            assert_eq!(input, output);
+
+            mrb_close(state);
         }
     }
 
     #[test]
     fn ext_undef_value() {
-        unsafe {
-            let _val = mrb_ext_undef_value();
-        }
+        let val = unsafe { mrb_ext_undef_value() };
+        assert_eq!(val.tt, MRB_TT_UNDEF);
     }
 }

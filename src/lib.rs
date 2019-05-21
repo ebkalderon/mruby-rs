@@ -1,14 +1,24 @@
+pub use crate::value::Value;
+pub use mruby_macros::Symbol;
+
+use std::ffi::CString;
+
 use mruby_sys::{self, mrb_state};
 
-use crate::state::State;
-use crate::value::{FromValue, ToValue, Value};
+use crate::de::{CastError, Deserializer, FromValue};
+use crate::ser::{Serializer, ToValue};
 
-pub mod value;
+#[macro_use]
+mod macros;
+
+pub mod de;
+pub mod ser;
+pub mod symbol;
 
 mod class;
 mod module;
 mod object;
-mod state;
+mod value;
 
 #[derive(Debug)]
 pub enum Error {
@@ -32,10 +42,9 @@ impl Mruby {
 
     pub fn register_global<V: ToValue>(&mut self, name: &str, global: V) {
         use mruby_sys::{mrb_gv_set, mrb_intern_cstr};
-        use std::ffi::CString;
 
-        let mut state = State::new(self.state);
-        let value = global.to_value(state.serialize()).into_inner();
+        let ser = Serializer::new(self.state);
+        let value = global.to_value(ser).into_inner();
         let owned = CString::new(name).expect("String contains null byte");
 
         unsafe {
@@ -44,18 +53,17 @@ impl Mruby {
         }
     }
 
-    pub fn get_global<V: FromValue>(&mut self, name: &str) -> Result<V, ()> {
+    pub fn get_global<V: FromValue>(&mut self, name: &str) -> Result<V, CastError> {
         use mruby_sys::{mrb_gv_get, mrb_intern_cstr};
-        use std::ffi::CString;
 
+        let owned = CString::new(name).expect("String contains null byte");
         let value = unsafe {
-            let owned = CString::new(name).expect("String contains null byte");
             let sym = mrb_intern_cstr(self.state, owned.as_ptr());
             Value(mrb_gv_get(self.state, sym))
         };
 
-        let mut state = State::new(self.state);
-        V::from_value(state.deserialize(value)).map_err(|_| ())
+        let de = Deserializer::new(self.state, value);
+        V::from_value(de)
     }
 }
 
@@ -76,6 +84,13 @@ mod tests {
 
     use super::*;
 
+    #[derive(Debug, PartialEq, Symbol)]
+    #[symbol(rename_all = "snake_case")]
+    pub enum AllowedSymbols {
+        Foo,
+        BarBaz,
+    }
+
     #[test]
     fn round_trip() {
         let mut ruby = Mruby::new().unwrap();
@@ -85,7 +100,8 @@ mod tests {
         map.insert("second", 17);
         map.insert("third", 18);
 
-        let input = (42, Some("hello"), [1, 2, 3], 64.5f32, map, true);
+        let sym = AllowedSymbols::BarBaz;
+        let input = (42, Some(sym), [1, 2, 3], 64.5f32, map, true);
         ruby.register_global("$example", &input);
         println!("  serialized (rust): {:?}", input);
 
@@ -94,7 +110,7 @@ mod tests {
             mruby_sys::mrb_load_string(ruby.state, owned.as_ptr());
         }
 
-        let output = ruby.get_global("$example").unwrap();
+        let output = ruby.get_global("$example").expect("Failed to deserialize");
         println!("deserialized (rust): {:?}", output);
         assert_eq!(input, output);
     }

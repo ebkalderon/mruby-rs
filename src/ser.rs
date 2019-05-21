@@ -1,10 +1,18 @@
+pub use self::serializer::{ArraySerializer, Serializer};
+
 use std::borrow::Cow;
-use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
+use std::cell::{Cell, RefCell};
+use std::collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque};
 use std::hash::Hash;
+use std::rc::Rc;
+use std::sync::Arc;
 
 use mruby_sys::{mrb_float, mrb_int};
 
-use super::{Serializer, Value};
+use crate::symbol::Symbol;
+use crate::value::Value;
+
+mod serializer;
 
 pub trait ToValue {
     fn to_value(&self, ser: Serializer) -> Value;
@@ -13,6 +21,12 @@ pub trait ToValue {
 impl ToValue for Value {
     fn to_value(&self, _: Serializer) -> Value {
         self.clone()
+    }
+}
+
+impl ToValue for Symbol {
+    fn to_value(&self, ser: Serializer) -> Value {
+        ser.serialize_symbol(self)
     }
 }
 
@@ -48,57 +62,24 @@ impl ToValue for f64 {
     }
 }
 
-impl ToValue for i8 {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
+macro_rules! impl_value_integer {
+    ( $($ty:ident)* ) => {
+        $(
+            impl ToValue for $ty {
+                fn to_value(&self, ser: Serializer) -> Value {
+                    ser.serialize_integer(*self as mrb_int)
+                }
+            }
+        )*
+    };
 }
 
-impl ToValue for i32 {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
-}
-
-impl ToValue for i64 {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
-}
-
-impl ToValue for isize {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
-}
-
-impl ToValue for u8 {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
-}
-
-impl ToValue for u32 {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
-}
-
-impl ToValue for u64 {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
-}
-
-impl ToValue for usize {
-    fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_integer(*self as mrb_int)
-    }
-}
+impl_value_integer!(i8 i32 i64 isize);
+impl_value_integer!(u8 u32 u64 usize);
 
 impl ToValue for str {
     fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_string(&self)
+        ser.serialize_string(self)
     }
 }
 
@@ -110,7 +91,7 @@ impl ToValue for String {
 
 impl<'a, T> ToValue for Cow<'a, T>
 where
-    T: ToOwned + ToValue + 'a,
+    T: ToOwned + ToValue + ?Sized + 'a,
 {
     fn to_value(&self, ser: Serializer) -> Value {
         T::to_value(self.as_ref(), ser)
@@ -127,13 +108,37 @@ impl<T: ToValue> ToValue for Option<T> {
     }
 }
 
-impl<'a, T: ToValue + ?Sized> ToValue for &'a T {
+impl<'a, T: ToValue + ?Sized + 'a> ToValue for &'a T {
     fn to_value(&self, ser: Serializer) -> Value {
         (*self).to_value(ser)
     }
 }
 
+impl<'a, T: ToValue + ?Sized + 'a> ToValue for Arc<T> {
+    fn to_value(&self, ser: Serializer) -> Value {
+        self.as_ref().to_value(ser)
+    }
+}
+
+impl<'a, T: ToValue + ?Sized + 'a> ToValue for Box<T> {
+    fn to_value(&self, ser: Serializer) -> Value {
+        self.as_ref().to_value(ser)
+    }
+}
+
+impl<'a, T: ToValue + ?Sized + 'a> ToValue for Rc<T> {
+    fn to_value(&self, ser: Serializer) -> Value {
+        self.as_ref().to_value(ser)
+    }
+}
+
 impl<T: ToValue> ToValue for [T] {
+    fn to_value(&self, ser: Serializer) -> Value {
+        ser.serialize_array(self)
+    }
+}
+
+impl<T: ToValue> ToValue for BinaryHeap<T> {
     fn to_value(&self, ser: Serializer) -> Value {
         ser.serialize_array(self)
     }
@@ -151,9 +156,21 @@ impl<T: ToValue, S> ToValue for HashSet<T, S> {
     }
 }
 
+impl<T: ToValue> ToValue for LinkedList<T> {
+    fn to_value(&self, ser: Serializer) -> Value {
+        ser.serialize_array(self)
+    }
+}
+
 impl<T: ToValue> ToValue for Vec<T> {
     fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_array(self.as_slice())
+        ser.serialize_array(self)
+    }
+}
+
+impl<T: ToValue> ToValue for VecDeque<T> {
+    fn to_value(&self, ser: Serializer) -> Value {
+        ser.serialize_array(self)
     }
 }
 
@@ -170,7 +187,7 @@ macro_rules! impl_value_array {
     );
 }
 
-impl_value_array! { 0 1 2 3 4 5 6 7 8 9 10 11 12 }
+impl_value_array!(0 1 2 3 4 5 6 7 8 9 10 11 12);
 
 macro_rules! impl_value_tuple {
     ( $($field:ident)+ ) => (
@@ -182,24 +199,10 @@ macro_rules! impl_value_tuple {
         {
             #[allow(non_snake_case)]
             fn to_value(&self, ser: Serializer) -> Value {
-                use mruby_sys::{mrb_ary_new, mrb_ary_push};
-
                 let ($(ref $field,)*) = self;
-                let Serializer(state) = ser;
-
-
-                unsafe {
-                    let array = mrb_ary_new(state);
-
-                    $(
-                        let Value(val) = $field.to_value(Serializer::new(state));
-                        mrb_ary_push(state, array, val);
-                    )*
-
-                    println!("serializing: {:?}", Value(array));
-
-                    Value(array)
-                }
+                ser.serialize_array_hetero()
+                    $(.next_element($field))*
+                    .finish()
             }
         }
     );
@@ -236,5 +239,17 @@ where
 {
     fn to_value(&self, ser: Serializer) -> Value {
         ser.serialize_hash(self)
+    }
+}
+
+impl<T: ToValue + ?Sized> ToValue for Cell<T> {
+    fn to_value(&self, ser: Serializer) -> Value {
+        (&self).to_value(ser)
+    }
+}
+
+impl<T: ToValue + ?Sized> ToValue for RefCell<T> {
+    fn to_value(&self, ser: Serializer) -> Value {
+        self.borrow().to_value(ser)
     }
 }
