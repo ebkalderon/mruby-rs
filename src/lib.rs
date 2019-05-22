@@ -85,7 +85,6 @@ mod tests {
     use super::*;
 
     #[derive(Debug, PartialEq, Symbol)]
-    #[symbol(rename_all = "snake_case")]
     pub enum AllowedSymbols {
         Foo,
         BarBaz,

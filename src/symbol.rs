@@ -1,8 +1,6 @@
 use std::borrow::Cow;
-use std::convert::Infallible;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
-use std::str::FromStr;
 
 use crate::de::FromValue;
 use crate::ser::ToValue;
@@ -49,14 +47,6 @@ impl Display for Symbol {
 impl Debug for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> FmtResult {
         write!(fmt, "{}({})", stringify!(Symbol), self.to_string())
-    }
-}
-
-impl FromStr for Symbol {
-    type Err = Infallible;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(Symbol::new(s))
     }
 }
 

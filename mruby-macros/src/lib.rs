@@ -11,12 +11,10 @@ mod symbol;
 /// Custom `#[derive]` macro for defining strongly-typed Ruby symbols.
 ///
 /// This derive macro takes the enum variants (which must not have payloads nor type parameters)
-/// and implements `FromValue` and `ToValue` on them, along with a utility trait called
-/// `SymbolEnum`.
+/// and implements `FromValue` and `ToValue` on them, along with two utility traits called
+/// `FromSymbol` and `ToSymbol`.
 ///
-/// # Design
-///
-/// ## Example
+/// # Example
 ///
 ///
 /// ```rust
@@ -27,61 +25,21 @@ mod symbol;
 /// }
 /// ```
 ///
-/// This generates the following code:
-///
-/// ```rust
-/// #[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
-/// const _IMPL_SYMBOL_ENUM_FOR_HELLO: () = {
-///     #[allow(unknown_lints)]
-///     #[cfg_attr(feature = "cargo-clippy", allow(useless_attribute))]
-///     #[allow(rust_2018_idioms)]
-///     extern crate mruby as _mruby;
-///
-///     impl _mruby::symbol::SymbolEnum for Hello {
-///         fn as_str(&self) -> &'static str {
-///             match *self {
-///                 Hello::Foo => "foo",
-///                 Hello::BarBaz => "bar_baz",
-///             }
-///         }
-///     }
-///
-///     impl _mruby::de::FromValue for Hello {
-///         fn from_value(de: _mruby::de::Deserializer) -> ::std::result::Result<Self, _mruby::de::CastError> {
-///             match de.deserialize_str()? {
-///                 "foo" => Ok(Hello::Foo),
-///                 "bar_baz" => Ok(Hello::BarBaz),
-///                 sym => Err(CastError::unknown_symbol(stringify!(Hello), sym)),
-///             }
-///         }
-///     }
-///
-///     impl _mruby::ser::ToValue for Hello {
-///         fn to_value(&self, ser: _mruby::ser::Serializer) -> _mruby::Value {
-///             ser.serialize_str(self.as_text())
-///         }
-///     }
-/// };
-/// ```
-///
-/// Note that the `SymbolEnum::into_symbol()` method is omitted from the implementation because it
-/// is already provided by default.
-///
-/// ## Attributes
+/// # Attributes
 ///
 /// The `Symbol` procedural macro provides an optional attribute called `rename` which customizes
 /// how the symbols should be serialized and deserialized:
 ///
 /// ```rust
 /// #[derive(Symbol)]
-/// #[symbol(rename = "snake_case")]
+/// #[symbol(rename_all = "snake_case")]
 /// pub enum Hello {
 ///     Foo,    // :foo
 ///     BarBaz, // :bar_baz
 /// }
 /// ```
 ///
-/// Possible values for `rename` are identical to [`#[serde(rename_all = "...")]`][rename_all],
+/// Possible values for `rename_all` are identical to [`#[serde(rename_all = "...")]`][rename_all],
 /// with the addition of two extra (weird) values:
 ///
 ///  * `"lowercase spaced"`
@@ -95,6 +53,9 @@ mod symbol;
 /// idiomatic Ruby style.
 ///
 /// [rename_all]: https://serde.rs/container-attrs.html#rename_all
+///
+/// Additionally, there is a per-field `#[symbol(rename = "...")]` attribute which allows you to
+/// manually rename the given field to an arbitrary string.
 #[proc_macro_derive(Symbol, attributes(symbol))]
 pub fn derive_symbol(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);

@@ -16,11 +16,11 @@ pub enum CastError {
 }
 
 impl CastError {
-    pub fn length(expected: usize, actual: usize) -> Self {
+    pub const fn length(expected: usize, actual: usize) -> Self {
         CastError::Length(expected, actual)
     }
 
-    pub fn numeric_conversion(value: mrb_int, rust_type: &'static str) -> Self {
+    pub const fn numeric_conversion(value: mrb_int, rust_type: &'static str) -> Self {
         CastError::NumericConversion(value, rust_type)
     }
 

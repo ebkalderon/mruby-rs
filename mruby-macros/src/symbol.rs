@@ -50,9 +50,11 @@ impl Default for Case {
 }
 
 #[derive(Debug, FromVariant)]
-#[darling(supports(unit))]
+#[darling(attributes(symbol), supports(unit))]
 struct Variant {
     ident: Ident,
+    #[darling(default)]
+    rename: Option<String>,
 }
 
 #[derive(Debug, FromDeriveInput)]
@@ -66,7 +68,7 @@ struct SymbolInput {
 }
 
 pub fn derive_symbol(ast: &DeriveInput) -> Result<TokenStream, Error> {
-    let input = SymbolInput::from_derive_input(ast).expect("blah");
+    let input = SymbolInput::from_derive_input(ast)?;
     let ty = input.ident.clone();
     let impls = gen_trait_impls(input)?;
     let output = wrap_in_dummy_const(ty, impls);
@@ -84,10 +86,10 @@ fn gen_trait_impls(input: SymbolInput) -> Result<TokenStream, Error> {
     let idents1 = variants.iter().map(|var| &var.ident);
     let idents2 = idents1.clone();
 
-    let strs1 = idents1
-        .clone()
-        .map(|var| var.to_string())
-        .map(|s| str_case.apply(&s));
+    let strs1 = variants
+        .iter()
+        .map(|var| (var.rename.clone(), &var.ident))
+        .map(|(rename, ident)| rename.unwrap_or_else(|| str_case.apply(&ident.to_string())));
     let strs2 = strs1.clone();
 
     let tokens = quote! {
