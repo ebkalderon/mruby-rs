@@ -87,7 +87,7 @@ impl<'a> FromValue for &'a str {
 
 impl FromValue for String {
     fn from_value(de: Deserializer) -> Result<Self, CastError> {
-        de.deserialize_str().map(|s| s.to_string())
+        de.deserialize_str().map(ToString::to_string)
     }
 }
 

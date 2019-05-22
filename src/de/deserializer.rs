@@ -38,7 +38,7 @@ impl Deserializer {
         let mut chars = text.chars();
         let first_char = chars
             .next()
-            .ok_or(CastError::unexpected_type("string value is empty"))?;
+            .ok_or_else(|| CastError::unexpected_type("string value is empty"))?;
 
         if chars.count() == 0 {
             Ok(first_char)

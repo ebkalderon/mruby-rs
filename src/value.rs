@@ -85,20 +85,20 @@ impl Debug for Value {
         let mut debug = fmt.debug_struct(stringify!(Value));
         debug.field("type", &inner.tt);
 
-        let mut value: &dyn Debug = match inner.tt {
-            MRB_TT_FALSE => &false,
-            MRB_TT_FIXNUM => unsafe { &inner.value.i },
-            // NOTE: Cannot check the float value in `val.value.f` here because it will not work
-            // with `MRB_WORD_BOXING`.
-            MRB_TT_FLOAT => unsafe { &inner.value.f },
-            MRB_TT_TRUE => &true,
-            MRB_TT_UNDEF => &"undef",
-            _ => &"<unknown>",
+        let value: &dyn Debug = if unsafe { mrb_ext_is_value_nil(*inner) } == 1 {
+            &"nil"
+        } else {
+            match inner.tt {
+                MRB_TT_FALSE => &false,
+                MRB_TT_FIXNUM => unsafe { &inner.value.i },
+                // NOTE: Cannot check the float value in `val.value.f` here because it will not work
+                // with `MRB_WORD_BOXING`.
+                MRB_TT_FLOAT => unsafe { &inner.value.f },
+                MRB_TT_TRUE => &true,
+                MRB_TT_UNDEF => &"undef",
+                _ => &"<unknown>",
+            }
         };
-
-        if unsafe { mrb_ext_is_value_nil(*inner) } == 1 {
-            value = &"nil";
-        }
 
         debug.field("value", value).finish()
     }

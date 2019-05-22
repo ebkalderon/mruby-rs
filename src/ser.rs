@@ -51,14 +51,14 @@ impl ToValue for char {
 #[cfg(not(feature = "disable-floats"))]
 impl ToValue for f32 {
     fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_float(*self as mrb_float)
+        ser.serialize_float(mrb_float::from(*self))
     }
 }
 
 #[cfg(all(not(feature = "disable-floats"), not(feature = "use-f32")))]
 impl ToValue for f64 {
     fn to_value(&self, ser: Serializer) -> Value {
-        ser.serialize_float(*self as mrb_float)
+        ser.serialize_float(*self)
     }
 }
 

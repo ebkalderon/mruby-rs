@@ -24,7 +24,7 @@ impl Serializer {
         let array: Vec<mrb_value> = val
             .into_iter()
             .map(|v| v.to_value(Serializer(state)))
-            .map(|v| v.into_inner())
+            .map(Value::into_inner)
             .collect();
 
         unsafe {
