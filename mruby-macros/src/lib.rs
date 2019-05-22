@@ -1,4 +1,4 @@
-#![deny(unsafe_code)]
+#![forbid(unsafe_code)]
 #![recursion_limit = "128"]
 
 extern crate proc_macro;
