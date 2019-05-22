@@ -3,6 +3,7 @@
 
 extern crate proc_macro;
 
+use darling::Error;
 use proc_macro::TokenStream;
 use syn::{parse_macro_input, DeriveInput};
 
@@ -60,7 +61,7 @@ mod symbol;
 pub fn derive_symbol(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
     symbol::derive_symbol(&ast)
-        .unwrap_or_else(|e| e.write_errors())
+        .unwrap_or_else(Error::write_errors)
         .into()
 }
 

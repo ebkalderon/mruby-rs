@@ -28,8 +28,8 @@ enum Case {
 }
 
 impl Case {
-    fn apply(&self, text: &str) -> String {
-        match *self {
+    fn apply(self, text: &str) -> String {
+        match self {
             Case::CamelCase => text.to_camel_case(),
             Case::KebabCase => text.to_kebab_case(),
             Case::Lowercase => text.to_lowercase(),
@@ -81,7 +81,7 @@ fn gen_trait_impls(input: SymbolInput) -> Result<TokenStream, Error> {
     let variants = input
         .data
         .take_enum()
-        .ok_or(Error::custom("symbol enum must have at least one variant"))?;
+        .ok_or_else(|| Error::custom("symbol enum must have at least one variant"))?;
 
     let idents1 = variants.iter().map(|var| &var.ident);
     let idents2 = idents1.clone();
