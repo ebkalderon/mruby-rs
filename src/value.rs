@@ -45,6 +45,8 @@ impl Value {
 
     // TODO: Switch to `const fn` once short-circuiting boolean comparisons operations and `unsafe`
     // calls are stabilized. See: https://github.com/rust-lang/rust/issues/49146
+    //
+    // TODO: Investigate whether FFI calls are permitted in `const fn`.
     pub fn is_nil(&self) -> bool {
         let Value(ref value) = *self;
         unsafe { mrb_ext_is_value_nil(*value) == 1 }
